@@ -24,7 +24,7 @@ Set-WinSystemLocale -SystemLocale el-GR #On next boot
 #Enable firewall rule for Remote Desktop - User Mode (TCP & UDP)
 Get-NetFirewallRule -DisplayName "Remote Desktop - User*" | Set-NetFirewallRule -Enabled true
 
-#Enable firewall rule for Remote Desktop - User Mode (TCP & UDP)
+#Enable firewall rule for Remote Desktop - User Mode (TCP & UDP) (Greek Firewall Rules)
 Get-NetFirewallRule -DisplayName "Απομακρυσμένη επιφάνεια εργασίας - Λειτουργία χρήστη*" | Set-NetFirewallRule -Enabled true
 
 #Disable Automatically Detect proxy settings
