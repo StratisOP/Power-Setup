@@ -24,6 +24,9 @@ Set-WinSystemLocale -SystemLocale el-GR #On next boot
 #Enable firewall rule for Remote Desktop - User Mode (TCP & UDP)
 Get-NetFirewallRule -DisplayName "Remote Desktop - User*" | Set-NetFirewallRule -Enabled true
 
+#Enable firewall rule for Remote Desktop - User Mode (TCP & UDP)
+Get-NetFirewallRule -DisplayName "Απομακρυσμένη επιφάνεια εργασίας - Λειτουργία χρήστη*" | Set-NetFirewallRule -Enabled true
+
 #Disable Automatically Detect proxy settings
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" AutoDetect 0
 
@@ -194,6 +197,20 @@ $Apps.AddRange(@(
         "Microsoft.BingSports",
         "Microsoft.BingTranslator",
         "Microsoft.BingWeather",
+        #HP OEM
+        "AD2F1837.HPInc.EnergyStar",
+        "AD2F1837.HPAudioCenter ",
+        "AD2F1837.HPPCHardwareDiagnosticsWindows",
+        "AD2F1837.HPPrinterControl",
+        "AD2F1837.HPPrivacySettings",
+        "AD2F1837.HPQuickDrop",
+        "AD2F1837.HPSupportAssistant",
+        "AD2F1837.HPSystemEventUtility",
+        "AD2F1837.myHP",
+        "5A894077.McAfeeSecurity",
+        "0E3921EB.sMedioTrueDVDforHP",
+        "PricelinePartnerNetwork.Booking.comEMEABigsavingso",
+        "C27EB4BA.DropboxOEM",
         # non-Microsoft
         "2FE3CB00.PicsArt-PhotoStudio",
         "46928bounde.EclipseManager",
@@ -241,9 +258,9 @@ $programs.AddRange(@(
         "vlc",
         "googlechrome",
         "firefox",
-        "winrar",
+        "7zip",
         #"adobereader",
-        #"anydesk.install",
+        "anydesk.install",
         "zoom"
     )
 )

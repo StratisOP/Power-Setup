@@ -51,6 +51,20 @@ $Apps.AddRange(@(
         "Microsoft.BingSports",
         "Microsoft.BingTranslator",
         "Microsoft.BingWeather",
+        #HP OEM
+        "AD2F1837.HPInc.EnergyStar",
+        "AD2F1837.HPAudioCenter ",
+        "AD2F1837.HPPCHardwareDiagnosticsWindows",
+        "AD2F1837.HPPrinterControl",
+        "AD2F1837.HPPrivacySettings",
+        "AD2F1837.HPQuickDrop",
+        "AD2F1837.HPSupportAssistant",
+        "AD2F1837.HPSystemEventUtility",
+        "AD2F1837.myHP",
+        "5A894077.McAfeeSecurity",
+        "0E3921EB.sMedioTrueDVDforHP",
+        "PricelinePartnerNetwork.Booking.comEMEABigsavingso",
+        "C27EB4BA.DropboxOEM",
         #Non-Microsoft
         "2FE3CB00.PicsArt-PhotoStudio",
         "46928bounde.EclipseManager",
@@ -91,4 +105,12 @@ foreach ($App in $Apps) {
 $path = Test-Path -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent
 if (-not($path)) {
     New-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\ -Name CloudContent | Out-Null
+}
+$path = Test-Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\LastPass.lnk"
+if($path){
+    Remove-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\LastPass.lnk" -Force
+}
+$path = Test-Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Free Trials.lnk"
+if($path){
+    Remove-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Free Trials.lnk" -Force
 }
