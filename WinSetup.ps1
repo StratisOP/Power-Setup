@@ -166,7 +166,6 @@ powercfg -change -monitor-timeout-ac 0
 #Changes the value of "Put the computer to sleep:"
 powercfg -change -standby-timeout-ac 0
 
-
 #Remove Built in Windows apps
 $Apps = New-Object -TypeName System.Collections.ArrayList
 $Apps.AddRange(@(
