@@ -9,6 +9,7 @@ $programs.AddRange(@(
         "googlechrome",
         "firefox",
         "winrar",
+        #"7zip",
         #"adobereader",
         #"anydesk.install",
         "zoom"
