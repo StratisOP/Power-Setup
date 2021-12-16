@@ -145,7 +145,6 @@ $cdm = @(
     "SystemPaneSuggestionsEnabled"
 )
 
-
 $path = Test-Path -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
 if (-not($path)) {
     New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ -Name "ContentDeliveryManager" | Out-Null
