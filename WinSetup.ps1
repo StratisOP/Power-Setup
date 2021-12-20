@@ -49,9 +49,9 @@ Set-ItemProperty -Path $WinExpPathAdv ShowTaskViewButton 0
 Set-ItemProperty -Path $WinExpPathAdv LaunchTo 1
 #Disable app start tracking
 Set-ItemProperty -Path $WinExpPathAdv Start_TrackProgs 0
-#Disable Edge desktop shortcut on new user accounts:
+#Disable Edge desktop shortcut on new user accounts
 Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer DisableEdgeDesktopShortcutCreation 1
-#Disable "tips, tricks and suggestions"
+#Disable tips, tricks and suggestions
 $path = Test-Path -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent
 if (-not($path)) {
     New-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\ -Name CloudContent | Out-Null
