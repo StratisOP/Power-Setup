@@ -1014,17 +1014,39 @@ $RunButton.Add_Click({
             choco install zoom -y
         }
         If ($Teams.IsChecked) {
-            choco install Teams -y
+            choco install microsoft-teams.install -y
         }
         If ($WinRAR.IsChecked) {
             choco install WinRAR -y
         }
         If ($_7Zip.IsChecked) {
-            choco install _7Zip -y
+            choco install 7Zip -y
         }
         If ($AppB3.IsChecked) {
         }
         If ($AppB4.IsChecked) {
+        }
+        If ($AnyDesk.IsChecked) {
+            choco install anydesk.install -y
+        }
+        If ($Team_Viewer.IsChecked) {
+            choco install teamviewer.host -y
+        }
+        If ($AppC3.IsChecked) {
+        }
+        If ($AppC4.IsChecked) {
+        }
+        If ($ACReader.IsChecked) {
+            choco install adobereader -y
+        }
+        If ($PuTTY.IsChecked) {
+            choco install putty -y 
+        }
+        If ($FileZilla.IsChecked) {
+            choco install filezilla -y
+        }
+        If ($VSD.IsChecked) {
+            choco install vscode -y
         }
     })
 $window.ShowDialog() | Out-Null
