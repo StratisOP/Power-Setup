@@ -274,4 +274,3 @@ Remove-Item -Recurse -Force "$env:ChocolateyInstall"
 #Clear Temp in Appdata
 Remove-Item -Path $env:LOCALAPPDATA\Temp\* -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -Path $env:LOCALAPPDATA\NuGet -Recurse -Force -ErrorAction SilentlyContinue
-Stop-Process -processname explorer -ErrorAction SilentlyContinue
