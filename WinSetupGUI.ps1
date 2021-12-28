@@ -53,7 +53,7 @@ Add-Type -AssemblyName PresentationFramework
         <CheckBox x:Name="Teams" Content="Teams" HorizontalAlignment="Left" Grid.Row="1" Margin="0,80,0,0" Height="15" Width="58" VerticalAlignment="Top"/>
         <CheckBox x:Name="WinRAR" Content="WinRAR" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" IsChecked="True" Margin="0,20,0,0" Height="15" Width="62"/>
         <CheckBox x:Name="_7Zip" Content="7zip" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,40,0,0" Height="15" Width="43" />
-        <CheckBox Content="AppB3" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,60,0,0" Height="20" Width="125" Visibility="Hidden" />
+        <CheckBox x:Name="VLC" Content="VLC" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,60,0,0" Height="15" Width="43" IsChecked="True"/>
         <CheckBox Content="AppB4" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Margin="0,80,0,0" Height="15" Width="125" VerticalAlignment="Top" Visibility="Hidden" />
 
         <CheckBox x:Name="AnyDesk" Content="AnyDesk" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" IsChecked="True" Margin="0,20,0,0" Height="15" Width="67"/>
@@ -77,8 +77,8 @@ Add-Type -AssemblyName PresentationFramework
         </Button>
         <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="29"/>
         <Label x:Name="StatusLBL" Content="Starting..." HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="500" Height="33" Margin="24,11,0,0" Grid.Row="2" Visibility="Collapsed"/>
-        <Button x:Name="DomainButton" Content="Set Domain..." HorizontalAlignment="Left" Margin="52,-35,0,0" VerticalAlignment="Top" Width="87" Height="27" Grid.Column="2" Grid.ColumnSpan="2" Visibility="Collapsed" />
-        <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Right" Margin="0,-35,0,0" VerticalAlignment="Top" Width="124" Height="27" Grid.Column="3"/>
+        <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="7,-35,0,0" VerticalAlignment="Top" Width="120" Height="27" Grid.Column="2" Visibility="Visible" />
+        <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Right" Margin="0,-35,12,0" VerticalAlignment="Top" Width="120" Height="27" Grid.Column="3"/>
     </Grid>
 </Window>
 '@
@@ -407,7 +407,7 @@ $Teams = $window.FindName("Teams")
 #Grid B
 $WinRAR = $window.FindName("WinRAR")
 $_7Zip = $window.FindName("_7Zip")
-$AppB3 = $window.FindName("AppB3")
+$VLC = $window.FindName("VLC")
 $AppB4 = $window.FindName("AppB4")
 #Grid C
 $AnyDesk = $window.FindName("AnyDesk")
@@ -431,10 +431,14 @@ $status = $window.FindName("StatusLBL")
 
 # Click Actions
 $DomainButton.Add_Click({ 
-        #Countdown
-        #Add-Computer -DomainName "google.com"
-        #$computerName = (Read-Host -Prompt "Set computer name" -AsSecureString)
-        #Add-Computer -DomainName MYLAB.Local -ComputerName TARGETCOMPUTER -newname NewTARGETCOMPUTER
+        $Serial = Get-WMIObject -Class "Win32_BIOS" | Select-Object -Expand SerialNumber
+        $NewComputerName = (Read-Host -Prompt "Set Computer Name (with serial number: $Serial)") 
+        $domain = (Read-Host -Prompt "        Enter domain name") 
+        #$username = "USERNAME"
+        #$password = "PASSWORD" | ConvertTo-SecureString -AsPlainText -Force
+        #$Credential = New-Object System.Management.Automation.PSCredential($username,$password)
+        Rename-Computer -NewName $NewComputerName 
+        Add-Computer -DomainName $domain -Credential $domain\ -options JoinWithNewName -Force
     })
 $AdminButton.Add_Click({
         Countdown
@@ -522,7 +526,7 @@ $RunButton.Add_Click({
         progCounter
         If ($Option6.IsChecked) { }
         progCounter
-        If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $AppB3.IsChecked -or $AppB4.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $AppC3.IsChecked -or $AppC4.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
+        If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AppB4.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $AppC3.IsChecked -or $AppC4.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
             Countdown
             $status.Content = " Preparing to install applications... "
             ChocoInstall
@@ -578,7 +582,12 @@ $RunButton.Add_Click({
 
         }
         progCounter
-        If ($AppB3.IsChecked) {
+        If ($VLC.IsChecked) {
+            Countdown
+            $status.Content = " Installing VLC... "
+            Countdown
+            choco install vlc -y
+            $VLC.IsChecked = $false
         }
         progCounter
         If ($AppB4.IsChecked) {
