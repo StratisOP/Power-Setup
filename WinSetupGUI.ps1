@@ -76,7 +76,7 @@ Add-Type -AssemblyName PresentationFramework
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="29"/>
+        <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="30"/>
         <Label x:Name="StatusLBL" Content="Starting..." HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="500" Height="33" Margin="24,11,0,0" Grid.Row="2" Visibility="Collapsed"/>
         <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="2" Visibility="Visible" />
         <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="3" Visibility="Visible"/>
@@ -99,6 +99,12 @@ Add-Type -AssemblyName PresentationFramework
                     <CheckBox x:Name="PuTTY" Content="PuTTY" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="407,31,0,0" Height="15" Width="53"/>
                     <CheckBox x:Name="FileZilla" Content="FileZilla" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="407,51,0,0" Height="15" Width="63"/>
                     <CheckBox x:Name="VSCode" Content="VS Code" HorizontalAlignment="Left" Margin="407,72,0,0" Height="15" Width="125" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="LocalTab" Header="Local">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="HDV" Content="HDV" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="44"/>
+                    <CheckBox x:Name="TXViewer" Content="TXViewer" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="73"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -441,6 +447,9 @@ $AppC4 = $window.FindName("AppC4")
 $ACReader = $window.FindName("ACReader")
 $PuTTY = $window.FindName("PuTTY")
 $FileZilla = $window.FindName("FileZilla")
+#Local Tab
+$HDV = $window.FindName("HDV")
+$TXViewer = $window.FindName("TXViewer")
 # Progress Bar
 $ProgressBar = $window.FindName("Progress")
 # Buttons
@@ -695,9 +704,15 @@ $RunButton.Add_Click({
         If (Test-Path -Path "$env:ProgramData\Chocolatey") {
             Countdown
             $status.Content = " Cleaning Up... "
+            Countdown
             ChocoRemove
         }
         progCounter
+        If ($HDV.IsChecked) {
+        }
+        progCounter
+        If ($TXViewer.IsChecked) {
+        }
         progCounter
         $status.Content = " Setup Complete! "
         $ProgressPreference = 'Continue'
