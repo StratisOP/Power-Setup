@@ -30,43 +30,44 @@ Add-Type -AssemblyName PresentationFramework
             <ColumnDefinition Width="150*" />
             <ColumnDefinition Width="150*"/>
         </Grid.ColumnDefinitions>
+        <Button x:Name="WinSettings" Content="Windows Settings" HorizontalAlignment="Left" Margin="-72,45,0,0" VerticalAlignment="Top" Width="115" Height="25" Visibility="Visible" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="{x:Null}" >
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <Button x:Name="AppSetup" Content="Application Setup" HorizontalAlignment="Left" Margin="-72,43,0,0" VerticalAlignment="Top" Width="115" Height="25" Visibility="Visible" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" Grid.Row="1" BorderBrush="{x:Null}" >
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
 
-        <Label x:Name="Label1" Content="Windows Settings" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="-4,-28,0,0" Height="28" Width="107"/>
-        <CheckBox x:Name="WinExplorerSetup" Content="Setup Explorer and Taskbar" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="True" Height="15" Width="166" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="WinAppRemove" Content="Remove Built in Windows apps" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="True" Margin="0,20,0,0" Height="15" Width="187" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="WinLangSetup" Content="Set Language, Region and Keyboard" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="True" Margin="0,40,0,0" Height="15" Width="214" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="WinNetSetup" Content="Enable firewall rule for Remote Desktop" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" Height="15" Width="232" Grid.ColumnSpan="2" Margin="0,61,0,0"/>
-        <CheckBox x:Name="WinProxySetup" Content="Disable Automatically Detect proxy settings" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="True" Margin="0,80,0,0" Height="15" Width="253" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="WinTimeSetup" Content="Set time and timezone automatically" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0" Height="15" Width="214" IsChecked="True" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="WinExplorerSetup" Content="Setup Explorer and Taskbar" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Height="15" Width="166" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="WinAppRemove" Content="Remove Built in Windows apps" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,20,0,0" Height="15" Width="187" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="WinLangSetup" Content="Set Language, Region and Keyboard" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,40,0,0" Height="15" Width="214" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="WinNetSetup" Content="Enable firewall rule for Remote Desktop" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Height="15" Width="232" Grid.ColumnSpan="2" Margin="0,61,0,0"/>
+        <CheckBox x:Name="WinProxySetup" Content="Disable Automatically Detect proxy settings" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,80,0,0" Height="15" Width="253" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="WinTimeSetup" Content="Set time and timezone automatically" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0" Height="15" Width="214" IsChecked="False" Grid.ColumnSpan="2"/>
 
-        <CheckBox x:Name="WinPowerSetup" Content="Set High Perfomance power plan" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="True" Height="15" Width="197" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="PowerDisplayTimer" Content="Disable turn off display timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="True" Margin="0,20,0,0" Height="15" Width="175" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="PowerComputerTimer" Content="Disable Computer sleep timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="True" Margin="0,40,0,0" Height="15" Width="183" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="WinPowerSetup" Content="Set High Perfomance power plan" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Height="15" Width="197" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerDisplayTimer" Content="Disable turn off display timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Margin="0,20,0,0" Height="15" Width="175" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerComputerTimer" Content="Disable Computer sleep timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Margin="0,40,0,0" Height="15" Width="183" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="Option4" Content="Option4" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Height="15" Width="67" Visibility="Hidden"/>
         <CheckBox Content="Option5" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" Margin="0,80,0,0" Height="15" Width="67" Visibility="Hidden"/>
         <CheckBox Content="Option6" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" Margin="0,100,0,0" Height="15" Width="67" Visibility="Hidden"/>
 
-        <Label x:Name="Label2" Content="Application Setup" HorizontalAlignment="Left" Grid.Column="0" VerticalAlignment="Top" Margin="-4,132,0,0" Height="25" Width="104" Grid.RowSpan="2"/>
-        <CheckBox x:Name="Chrome" Content="Chrome" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" IsChecked="True" Margin="0,20,0,0" Height="15" Width="64"/>
-        <CheckBox x:Name="Firefox" Content="Firefox" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" IsChecked="True" Margin="0,40,0,0" Height="15" Width="58"/>
-        <CheckBox x:Name="Zoom" Content="Zoom" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="0,60,0,0" Height="15" Width="51" IsChecked="True"/>
-        <CheckBox x:Name="Teams" Content="Teams" HorizontalAlignment="Left" Grid.Row="1" Margin="0,80,0,0" Height="15" Width="58" VerticalAlignment="Top"/>
-        <CheckBox x:Name="WinRAR" Content="WinRAR" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" IsChecked="True" Margin="0,20,0,0" Height="15" Width="62"/>
-        <CheckBox x:Name="_7Zip" Content="7zip" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,40,0,0" Height="15" Width="43" />
-        <CheckBox x:Name="VLC" Content="VLC" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,60,0,0" Height="15" Width="43" IsChecked="True"/>
-        <CheckBox Content="AppB4" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Margin="0,80,0,0" Height="15" Width="125" VerticalAlignment="Top" Visibility="Hidden" />
-
-        <CheckBox x:Name="AnyDesk" Content="AnyDesk" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" IsChecked="True" Margin="0,20,0,0" Height="15" Width="67"/>
-        <CheckBox x:Name="Team_Viewer" Content="Team Viewer" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" Margin="0,40,0,0" Height="15" Width="88"/>
-        <CheckBox Content="AppC3" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" Margin="0,60,0,0" Height="15" Width="135" Visibility="Hidden"/>
-        <CheckBox Content="AppC4" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="2" Margin="0,80,0,0" Height="15" Width="135" VerticalAlignment="Top" Visibility="Hidden"/>
-        <CheckBox x:Name="ACReader" Content="Acrobat Reader DC" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" IsChecked="False" Margin="0,20,0,0" Height="15" Width="125"/>
-        <CheckBox x:Name="PuTTY" Content="PuTTY" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" Margin="0,40,0,0" Height="15" Width="53"/>
-        <CheckBox x:Name="FileZilla" Content="FileZilla" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" Margin="0,60,0,0" Height="15" Width="63"/>
-        <CheckBox x:Name="VSCode" Content="Visual Studio Code" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" Margin="0,80,0,0" Height="15" Width="125" VerticalAlignment="Top"/>
         <Button x:Name="RunButton" Content="Run..." HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="38" Width="86" FontSize="14" IsDefault="True" IsEnabled="True" Grid.ColumnSpan="2" Grid.Column="1" Visibility="Visible"/>
         <Button x:Name="ConsoleButton" Content="Console" HorizontalAlignment="Left" Margin="-50,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="69" Height="20" Visibility="Hidden">
-        <Button.RenderTransform>
+            <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
@@ -77,8 +78,30 @@ Add-Type -AssemblyName PresentationFramework
         </Button>
         <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="29"/>
         <Label x:Name="StatusLBL" Content="Starting..." HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="500" Height="33" Margin="24,11,0,0" Grid.Row="2" Visibility="Collapsed"/>
-        <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="7,-35,0,0" VerticalAlignment="Top" Width="120" Height="27" Grid.Column="2" Visibility="Visible" />
-        <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Right" Margin="0,-35,12,0" VerticalAlignment="Top" Width="120" Height="27" Grid.Column="3"/>
+        <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="2" Visibility="Visible" />
+        <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="3" Visibility="Visible"/>
+        <TabControl x:Name="ApplicationSetup" Grid.ColumnSpan="4" Margin="0,126,0,10" Grid.RowSpan="2">
+            <TabItem x:Name="OnlineTab" Header="Online">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="Chrome" Content="Chrome" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="64"/>
+                    <CheckBox x:Name="Firefox" Content="Firefox" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="58"/>
+                    <CheckBox x:Name="Zoom" Content="Zoom" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,51,0,0" Height="15" Width="51" IsChecked="False"/>
+                    <CheckBox x:Name="Teams" Content="Teams" HorizontalAlignment="Left" Margin="4,72,0,0" Height="15" Width="58" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="WinRAR" Content="WinRAR" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="147,10,0,0" Height="15" Width="62"/>
+                    <CheckBox x:Name="_7Zip" Content="7zip" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="147,31,0,0" Height="15" Width="43" />
+                    <CheckBox x:Name="VLC" Content="VLC" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="147,51,0,0" Height="15" Width="43" IsChecked="False"/>
+                    <CheckBox Content="AppB4" HorizontalAlignment="Right" Margin="0,72,272,0" Height="15" Width="125" VerticalAlignment="Top" Visibility="Hidden" />
+                    <CheckBox x:Name="AnyDesk" Content="AnyDesk" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="272,10,0,0" Height="15" Width="67"/>
+                    <CheckBox x:Name="Team_Viewer" Content="Team Viewer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="272,31,0,0" Height="15" Width="88"/>
+                    <CheckBox Content="AppC3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="272,51,0,0" Height="15" Width="135" Visibility="Hidden"/>
+                    <CheckBox Content="AppC4" HorizontalAlignment="Left" Margin="272,72,0,0" Height="15" Width="135" VerticalAlignment="Top" Visibility="Hidden"/>
+                    <CheckBox x:Name="ACReader" Content="Acrobat Reader" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="407,10,0,0" Height="15" Width="125"/>
+                    <CheckBox x:Name="PuTTY" Content="PuTTY" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="407,31,0,0" Height="15" Width="53"/>
+                    <CheckBox x:Name="FileZilla" Content="FileZilla" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="407,51,0,0" Height="15" Width="63"/>
+                    <CheckBox x:Name="VSCode" Content="VS Code" HorizontalAlignment="Left" Margin="407,72,0,0" Height="15" Width="125" VerticalAlignment="Top"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
 '@
@@ -418,18 +441,36 @@ $AppC4 = $window.FindName("AppC4")
 $ACReader = $window.FindName("ACReader")
 $PuTTY = $window.FindName("PuTTY")
 $FileZilla = $window.FindName("FileZilla")
-$VSCode = $window.FindName("VSCode")
 # Progress Bar
 $ProgressBar = $window.FindName("Progress")
 # Buttons
 $RunButton = $window.FindName("RunButton")
 $DomainButton = $window.FindName("DomainButton")
 $AdminButton = $window.FindName("AdminButton")
+$WinSettings = $window.FindName("WinSettings")
+$AppSetup = $window.FindName("AppSetup")
 #$ConsoleButton = $window.FindName("ConsoleButton")
 # Labels
 $status = $window.FindName("StatusLBL")
 
 # Click Actions
+$WinSettings.Add_Click({
+    $WinLangSetup.IsChecked = (-not $WinLangSetup.IsChecked)
+    $WinNetSetup.IsChecked =(-not $WinNetSetup.IsChecked)
+    $WinProxySetup.IsChecked = (-not $WinProxySetup.IsChecked)
+    $WinTimeSetup.IsChecked = (-not $WinTimeSetup.IsChecked)
+    $WinExplorerSetup.IsChecked = (-not $WinExplorerSetup.IsChecked)
+    $WinPowerSetup.IsChecked = (-not $WinPowerSetup.IsChecked)
+    $PowerDisplayTimer.IsChecked = (-not $PowerDisplayTimer.IsChecked)
+    $PowerComputerTimer.IsChecked = (-not $PowerComputerTimer.IsChecked)
+    $WinAppRemove.IsChecked = (-not $WinAppRemove.IsChecked)
+})
+$AppSetup.Add_Click({
+    $Chrome.IsChecked = (-not $Chrome.IsChecked)
+    $Firefox.IsChecked =(-not $Firefox.IsChecked)
+    $WinRAR.IsChecked = (-not $WinRAR.IsChecked)
+    $VLC.IsChecked = (-not $VLC.IsChecked)
+})
 $DomainButton.Add_Click({ 
         $Serial = Get-WMIObject -Class "Win32_BIOS" | Select-Object -Expand SerialNumber
         $NewComputerName = (Read-Host -Prompt "Set Computer Name (with serial number: $Serial)") 
@@ -446,7 +487,6 @@ $AdminButton.Add_Click({
         $UserAccount = Get-LocalUser -Name "Administrator"
         $UserAccount | Set-LocalUser -Password $Password
         C:\WINDOWS\system32\net.exe user administrator /active:yes
-    
     })
 #$ConsoleButton.Add_Click({ $Null = [Win32.Functions]::ShowWindow($hWnd, $SW_SHOW) })
 $RunButton.Add_Click({
@@ -485,28 +525,28 @@ $RunButton.Add_Click({
             $WinTimeSetup.IsChecked = $false
         }
         progCounter
-        If ($WinExplorerSetup.IsChecked) {
+        If ($WinExplorerSetup.IsChecked ) {
             Countdown
             $status.Content = "Setting Windows Explorer and Taskbar settings... "
             WinExplorerSetup
             $WinExplorerSetup.IsChecked = $false
         }
         progCounter
-        If ($WinPowerSetup.IsChecked) {
+        If ($WinPowerSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
             Countdown
             $status.Content = "Setting active power plan to High Performance... "
             WinPowerSetup
             $WinPowerSetup.IsChecked = $false
         }
         progCounter
-        If ($PowerDisplayTimer.IsChecked) {
+        If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
             Countdown
             $status.Content = "Turning off display timer... "
             PowerDisplayTimer
             $PowerDisplayTimer.IsChecked = $false
         }
         progCounter
-        If ($PowerComputerTimer.IsChecked) {
+        If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
             Countdown
             $status.Content = "Turning off computer sleep timer... "
             PowerComputerTimer
@@ -657,6 +697,7 @@ $RunButton.Add_Click({
             $status.Content = " Cleaning Up... "
             ChocoRemove
         }
+        progCounter
         progCounter
         $status.Content = " Setup Complete! "
         $ProgressPreference = 'Continue'
