@@ -58,7 +58,7 @@ Add-Type -AssemblyName PresentationFramework
         <CheckBox x:Name="PowerProxySetup" Content="Disable Automatically Detect proxy settings" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,80,0,0" Height="15" Width="253" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerTimeSetup" Content="Set time and timezone automatically" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0" Height="15" Width="214" IsChecked="False" Grid.ColumnSpan="2"/>
 
-        <CheckBox x:Name="PowerPowerSetup" Content="Set High Perfomance power plan" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Height="15" Width="197" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerPlanSetup" Content="Set High Perfomance power plan" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Height="15" Width="197" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerDisplayTimer" Content="Disable turn off display timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Margin="0,20,0,0" Height="15" Width="175" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerComputerTimer" Content="Disable Computer sleep timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Margin="0,40,0,0" Height="15" Width="183" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="Option4" Content="Option4" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Height="15" Width="67" Visibility="Hidden"/>
@@ -235,7 +235,7 @@ Version="1">
     Import-StartLayout -LayoutPath "$env:temp\Layout.xml" -MountPath c:\
     Stop-Process -processname explorer -ErrorAction SilentlyContinue
 }
-function PowerPowerSetup {
+function PowerPlanSetup {
     #Sets active power plan to High Performance
     powercfg -setactive 8C5E7fda-e8bf-4a96-9a85-a6e23a8c635c
     #Disables Hibernation
@@ -421,7 +421,7 @@ $PowerNetSetup = $Window.FindName("PowerNetSetup")
 $PowerProxySetup = $Window.FindName("PowerProxySetup")
 $PowerTimeSetup = $Window.FindName("PowerTimeSetup")
 #Grid B
-$PowerPowerSetup = $Window.FindName("PowerPowerSetup")
+$PowerPlanSetup = $Window.FindName("PowerPlanSetup")
 $PowerDisplayTimer = $Window.FindName("PowerDisplayTimer")
 $PowerComputerTimer = $Window.FindName("PowerComputerTimer")
 $Option4 = $Window.FindName("Option4")
@@ -470,7 +470,7 @@ $PowerSettings.Add_Click({
     $PowerProxySetup.IsChecked = (-not $PowerProxySetup.IsChecked)
     $PowerTimeSetup.IsChecked = (-not $PowerTimeSetup.IsChecked)
     $PowerExplorerSetup.IsChecked = (-not $PowerExplorerSetup.IsChecked)
-    $PowerPowerSetup.IsChecked = (-not $PowerPowerSetup.IsChecked)
+    $PowerPlanSetup.IsChecked = (-not $PowerPlanSetup.IsChecked)
     $PowerDisplayTimer.IsChecked = (-not $PowerDisplayTimer.IsChecked)
     $PowerComputerTimer.IsChecked = (-not $PowerComputerTimer.IsChecked)
     $PowerAppRemove.IsChecked = (-not $WinAppRemove.IsChecked)
@@ -542,11 +542,11 @@ $RunButton.Add_Click({
         $PowerExplorerSetup.IsChecked = $false
     }
     progCounter
-    If ($PowerPowerSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
+    If ($PowerPlanSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
         Countdown
         $status.Content = "Setting active power plan to High Performance... "
-        PowerPowerSetup
-        $PowerPowerSetup.IsChecked = $false
+        PowerPlanSetup
+        $PowerPlanSetup.IsChecked = $false
     }
     progCounter
     If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
@@ -710,7 +710,7 @@ $RunButton.Add_Click({
     }
     progCounter
     If ($HDV.IsChecked -or $TXViewer.IsChecked){
-        $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
+        $location = Get-Content -Path PowerSettings.json | ConvertFrom-Json
     }
     If ($HDV.IsChecked) {
         Countdown
