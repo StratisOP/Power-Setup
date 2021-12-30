@@ -101,7 +101,7 @@ Add-Type -AssemblyName PresentationFramework
                     <CheckBox x:Name="VSCode" Content="VS Code" HorizontalAlignment="Left" Margin="407,72,0,0" Height="15" Width="125" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="LocalTab" Header="Local">
+            <TabItem x:Name="LocalTab" Header="Local" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="HDV" Content="HDV" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="44"/>
                     <CheckBox x:Name="TXViewer" Content="TXViewer" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="73"/>
