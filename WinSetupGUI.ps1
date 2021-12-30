@@ -15,7 +15,7 @@ Add-Type -AssemblyName PresentationFramework
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:WinSetupGUI"
-    Title="Windows Setup" Height="400" Width="600"
+    Title="Power Setup" Height="400" Width="600"
     ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid Margin="25,40,25,10">
         <Grid.RowDefinitions>
@@ -30,7 +30,7 @@ Add-Type -AssemblyName PresentationFramework
             <ColumnDefinition Width="150*" />
             <ColumnDefinition Width="150*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="WinSettings" Content="Windows Settings" HorizontalAlignment="Left" Margin="-72,45,0,0" VerticalAlignment="Top" Width="115" Height="25" Visibility="Visible" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="{x:Null}" >
+        <Button x:Name="PowerSettings" Content="Windows Settings" HorizontalAlignment="Left" Margin="-72,45,0,0" VerticalAlignment="Top" Width="115" Height="25" Visibility="Visible" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" BorderBrush="{x:Null}" >
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -51,14 +51,14 @@ Add-Type -AssemblyName PresentationFramework
             </Button.RenderTransform>
         </Button>
 
-        <CheckBox x:Name="WinExplorerSetup" Content="Setup Explorer and Taskbar" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Height="15" Width="166" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="WinAppRemove" Content="Remove Built in Windows apps" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,20,0,0" Height="15" Width="187" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="WinLangSetup" Content="Set Language, Region and Keyboard" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,40,0,0" Height="15" Width="214" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="WinNetSetup" Content="Enable firewall rule for Remote Desktop" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Height="15" Width="232" Grid.ColumnSpan="2" Margin="0,61,0,0"/>
-        <CheckBox x:Name="WinProxySetup" Content="Disable Automatically Detect proxy settings" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,80,0,0" Height="15" Width="253" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="WinTimeSetup" Content="Set time and timezone automatically" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0" Height="15" Width="214" IsChecked="False" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerExplorerSetup" Content="Setup Explorer and Taskbar" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Height="15" Width="166" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerAppRemove" Content="Remove Built in Windows apps" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,20,0,0" Height="15" Width="187" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerLangSetup" Content="Set Language, Region and Keyboard" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,40,0,0" Height="15" Width="214" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerNetSetup" Content="Enable firewall rule for Remote Desktop" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Height="15" Width="232" Grid.ColumnSpan="2" Margin="0,61,0,0"/>
+        <CheckBox x:Name="PowerProxySetup" Content="Disable Automatically Detect proxy settings" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,80,0,0" Height="15" Width="253" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerTimeSetup" Content="Set time and timezone automatically" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0" Height="15" Width="214" IsChecked="False" Grid.ColumnSpan="2"/>
 
-        <CheckBox x:Name="WinPowerSetup" Content="Set High Perfomance power plan" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Height="15" Width="197" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerPowerSetup" Content="Set High Perfomance power plan" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Height="15" Width="197" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerDisplayTimer" Content="Disable turn off display timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Margin="0,20,0,0" Height="15" Width="175" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerComputerTimer" Content="Disable Computer sleep timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Margin="0,40,0,0" Height="15" Width="183" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="Option4" Content="Option4" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="2" Height="15" Width="67" Visibility="Hidden"/>
@@ -113,7 +113,7 @@ Add-Type -AssemblyName PresentationFramework
 '@
 $reader = (New-Object System.Xml.XmlNodeReader $xaml)
 $window = [Windows.Markup.XamlReader]::Load($reader) 
-function WinLangSetup {
+function PowerLangSetup {
     #Set Language, region, and keyboard languages
     Set-Culture en-US
     Set-WinUILanguageOverride -Language en-US
@@ -121,24 +121,24 @@ function WinLangSetup {
     Set-WinHomeLocation -GeoId 98
     Set-WinSystemLocale -SystemLocale el-GR #On next boot
 }
-function WinNetSetup {
+function PowerNetSetup {
     #Enable firewall rule for Remote Desktop - User Mode (TCP & UDP)
     Get-NetFirewallRule -DisplayName "Remote Desktop - User*" | Set-NetFirewallRule -Enabled true
 
     #Enable firewall rule for Remote Desktop - User Mode (TCP & UDP) (Greek Firewall Rules)
     Get-NetFirewallRule -DisplayName "Απομακρυσμένη επιφάνεια εργασίας - Λειτουργία χρήστη*" | Set-NetFirewallRule -Enabled true
 }
-function WinProxySetup {
+function PowerProxySetup {
     #Disable Automatically Detect proxy settings
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" AutoDetect 0
 }
-function WinTimeSetup {
+function PowerTimeSetup {
     #Set time automatically
     Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters Type NTP
     #Set timezone automatically 
     Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate Start 3
 }
-function WinExplorerSetup {
+function PowerExplorerSetup {
     $WinExpPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer"
     $WinExpPathAdv = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
     $PolWinExp = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer"
@@ -235,7 +235,7 @@ Version="1">
     Import-StartLayout -LayoutPath "$env:temp\Layout.xml" -MountPath c:\
     Stop-Process -processname explorer -ErrorAction SilentlyContinue
 }
-function WinPowerSetup {
+function PowerPowerSetup {
     #Sets active power plan to High Performance
     powercfg -setactive 8C5E7fda-e8bf-4a96-9a85-a6e23a8c635c
     #Disables Hibernation
@@ -249,7 +249,7 @@ function PowerComputerTimer {
     #Changes the value of "Put the computer to sleep:"
     powercfg -change -standby-timeout-ac 0
 }
-function WinAppRemove {
+function PowerAppRemove {
     #Disable OEM apps from reinstalling on current user
     $cdm = @(
         "ContentDeliveryAllowed"
@@ -414,66 +414,66 @@ function progCounter {
 # XAML objects
 # Windows Settings Checkboxes
 #Grid A
-$WinExplorerSetup = $window.FindName("WinExplorerSetup")
-$WinAppRemove = $window.FindName("WinAppRemove")
-$WinLangSetup = $window.FindName("WinLangSetup")
-$WinNetSetup = $window.FindName("WinNetSetup")
-$WinProxySetup = $window.FindName("WinProxySetup")
-$WinTimeSetup = $window.FindName("WinTimeSetup")
+$PowerExplorerSetup = $window.FindName("PowerExplorerSetup")
+$PowerAppRemove = $window.FindName("PowerAppRemove")
+$PowerLangSetup = $Window.FindName("PowerLangSetup")
+$PowerNetSetup = $Window.FindName("PowerNetSetup")
+$PowerProxySetup = $Window.FindName("PowerProxySetup")
+$PowerTimeSetup = $Window.FindName("PowerTimeSetup")
 #Grid B
-$WinPowerSetup = $window.FindName("WinPowerSetup")
-$PowerDisplayTimer = $window.FindName("PowerDisplayTimer")
-$PowerComputerTimer = $window.FindName("PowerComputerTimer")
-$Option4 = $window.FindName("Option4")
-$Option5 = $window.FindName("Option5")
-$Option6 = $window.FindName("Option6")
+$PowerPowerSetup = $Window.FindName("PowerPowerSetup")
+$PowerDisplayTimer = $Window.FindName("PowerDisplayTimer")
+$PowerComputerTimer = $Window.FindName("PowerComputerTimer")
+$Option4 = $Window.FindName("Option4")
+$Option5 = $Window.FindName("Option5")
+$Option6 = $Window.FindName("Option6")
 # Application Setup Checkboxes
 #Grid A
-$Chrome = $window.FindName("Chrome")
-$Firefox = $window.FindName("Firefox")
-$Zoom = $window.FindName("Zoom")
-$Teams = $window.FindName("Teams")
+$Chrome = $Window.FindName("Chrome")
+$Firefox = $Window.FindName("Firefox")
+$Zoom = $Window.FindName("Zoom")
+$Teams = $Window.FindName("Teams")
 #Grid B
 $WinRAR = $window.FindName("WinRAR")
-$_7Zip = $window.FindName("_7Zip")
-$VLC = $window.FindName("VLC")
-$AppB4 = $window.FindName("AppB4")
+$_7Zip = $Window.FindName("_7Zip")
+$VLC = $Window.FindName("VLC")
+$AppB4 = $Window.FindName("AppB4")
 #Grid C
-$AnyDesk = $window.FindName("AnyDesk")
-$Team_Viewer = $window.FindName("Team_Viewer")
-$AppC3 = $window.FindName("AppC3")
-$AppC4 = $window.FindName("AppC4")
+$AnyDesk = $Window.FindName("AnyDesk")
+$Team_Viewer = $Window.FindName("Team_Viewer")
+$AppC3 = $Window.FindName("AppC3")
+$AppC4 = $Window.FindName("AppC4")
 #Grid D
-$ACReader = $window.FindName("ACReader")
-$PuTTY = $window.FindName("PuTTY")
-$FileZilla = $window.FindName("FileZilla")
-$VSCode = $window.FindName("VSCode")
+$ACReader = $Window.FindName("ACReader")
+$PuTTY = $Window.FindName("PuTTY")
+$FileZilla = $Window.FindName("FileZilla")
+$VSCode = $Window.FindName("VSCode")
 #Local Tab
-$HDV = $window.FindName("HDV")
-$TXViewer = $window.FindName("TXViewer")
+$HDV = $Window.FindName("HDV")
+$TXViewer = $Window.FindName("TXViewer")
 # Progress Bar
-$ProgressBar = $window.FindName("Progress")
+$ProgressBar = $Window.FindName("Progress")
 # Buttons
-$RunButton = $window.FindName("RunButton")
-$DomainButton = $window.FindName("DomainButton")
-$AdminButton = $window.FindName("AdminButton")
-$WinSettings = $window.FindName("WinSettings")
-$AppSetup = $window.FindName("AppSetup")
-#$ConsoleButton = $window.FindName("ConsoleButton")
+$RunButton = $Window.FindName("RunButton")
+$DomainButton = $Window.FindName("DomainButton")
+$AdminButton = $Window.FindName("AdminButton")
+$PowerSettings = $Window.FindName("PowerSettings")
+$AppSetup = $Window.FindName("AppSetup")
+#$ConsoleButton = $Window.FindName("ConsoleButton")
 # Labels
-$status = $window.FindName("StatusLBL")
+$status = $Window.FindName("StatusLBL")
 
 # Click Actions
-$WinSettings.Add_Click({
-    $WinLangSetup.IsChecked = (-not $WinLangSetup.IsChecked)
-    $WinNetSetup.IsChecked =(-not $WinNetSetup.IsChecked)
-    $WinProxySetup.IsChecked = (-not $WinProxySetup.IsChecked)
-    $WinTimeSetup.IsChecked = (-not $WinTimeSetup.IsChecked)
-    $WinExplorerSetup.IsChecked = (-not $WinExplorerSetup.IsChecked)
-    $WinPowerSetup.IsChecked = (-not $WinPowerSetup.IsChecked)
+$PowerSettings.Add_Click({
+    $PowerLangSetup.IsChecked = (-not $PowerLangSetup.IsChecked)
+    $PowerNetSetup.IsChecked =(-not $PowerNetSetup.IsChecked)
+    $PowerProxySetup.IsChecked = (-not $PowerProxySetup.IsChecked)
+    $PowerTimeSetup.IsChecked = (-not $PowerTimeSetup.IsChecked)
+    $PowerExplorerSetup.IsChecked = (-not $PowerExplorerSetup.IsChecked)
+    $PowerPowerSetup.IsChecked = (-not $PowerPowerSetup.IsChecked)
     $PowerDisplayTimer.IsChecked = (-not $PowerDisplayTimer.IsChecked)
     $PowerComputerTimer.IsChecked = (-not $PowerComputerTimer.IsChecked)
-    $WinAppRemove.IsChecked = (-not $WinAppRemove.IsChecked)
+    $PowerAppRemove.IsChecked = (-not $WinAppRemove.IsChecked)
 })
 $AppSetup.Add_Click({
     $Chrome.IsChecked = (-not $Chrome.IsChecked)
@@ -508,45 +508,45 @@ $RunButton.Add_Click({
     Countdown
     $status.Visibility = "Visible"
     Countdown
-    If ($WinLangSetup.IsChecked) { 
+    If ($PowerLangSetup.IsChecked) { 
         Countdown
         $status.Content = "Setting Language, region, and keyboard languages... "
-        WinLangSetup
-        $WinLangSetup.IsChecked = $false
+        PowerLangSetup
+        $PowerLangSetup.IsChecked = $false
     }
     progCounter
-    If ($WinNetSetup.IsChecked) { 
+    If ($PowerNetSetup.IsChecked) { 
         Countdown
         $status.Content = "Enabling firewall rule for Remote Desktop ... "
-        WinNetSetup
-        $WinNetSetup.IsChecked = $false
+        PowerNetSetup
+        $PowerNetSetup.IsChecked = $false
     }
     progCounter
-    If ($WinProxySetup.IsChecked) {
+    If ($PowerProxySetup.IsChecked) {
         Countdown
         $status.Content = "Disabling proxy... "
-        WinProxySetup
-        $WinProxySetup.IsChecked = $false
+        PowerProxySetup
+        $PowerProxySetup.IsChecked = $false
     }
-    If ($WinTimeSetup.IsChecked) {
+    If ($PowerTimeSetup.IsChecked) {
         Countdown
         $status.Content = "Setting time and timezone... "
-        WinTimeSetup
-        $WinTimeSetup.IsChecked = $false
+        PowerTimeSetup
+        $PowerTimeSetup.IsChecked = $false
     }
     progCounter
-    If ($WinExplorerSetup.IsChecked ) {
+    If ($PowerExplorerSetup.IsChecked ) {
         Countdown
         $status.Content = "Setting Windows Explorer and Taskbar settings... "
-        WinExplorerSetup
-        $WinExplorerSetup.IsChecked = $false
+        PowerExplorerSetup
+        $PowerExplorerSetup.IsChecked = $false
     }
     progCounter
-    If ($WinPowerSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
+    If ($PowerPowerSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
         Countdown
         $status.Content = "Setting active power plan to High Performance... "
-        WinPowerSetup
-        $WinPowerSetup.IsChecked = $false
+        PowerPowerSetup
+        $PowerPowerSetup.IsChecked = $false
     }
     progCounter
     If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
@@ -563,11 +563,11 @@ $RunButton.Add_Click({
         $PowerComputerTimer.IsChecked = $false
     }
     progCounter
-    If ($WinAppRemove.IsChecked) {
+    If ($PowerAppRemove.IsChecked) {
         Countdown
         $status.Content = "Removing Windows Store apps... "
-        WinAppRemove
-        $WinAppRemove.IsChecked = $false
+        PowerAppRemove
+        $PowerAppRemove.IsChecked = $false
     }
     progCounter
     If ($Option4.IsChecked) { }
