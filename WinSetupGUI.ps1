@@ -447,6 +447,7 @@ $AppC4 = $window.FindName("AppC4")
 $ACReader = $window.FindName("ACReader")
 $PuTTY = $window.FindName("PuTTY")
 $FileZilla = $window.FindName("FileZilla")
+$VSCode = $window.FindName("VSCode")
 #Local Tab
 $HDV = $window.FindName("HDV")
 $TXViewer = $window.FindName("TXViewer")
@@ -481,246 +482,261 @@ $AppSetup.Add_Click({
     $VLC.IsChecked = (-not $VLC.IsChecked)
 })
 $DomainButton.Add_Click({ 
-        $Serial = Get-WMIObject -Class "Win32_BIOS" | Select-Object -Expand SerialNumber
-        $NewComputerName = (Read-Host -Prompt "Set Computer Name (with serial number: $Serial)") 
-        $domain = (Read-Host -Prompt "        Enter domain name") 
-        #$username = "USERNAME"
-        #$password = "PASSWORD" | ConvertTo-SecureString -AsPlainText -Force
-        #$Credential = New-Object System.Management.Automation.PSCredential($username,$password)
-        Rename-Computer -NewName $NewComputerName 
-        Add-Computer -DomainName $domain -Credential $domain\ -options JoinWithNewName -Force
-    })
+    $Serial = Get-WMIObject -Class "Win32_BIOS" | Select-Object -Expand SerialNumber
+    $NewComputerName = (Read-Host -Prompt "Set Computer Name (with serial number: $Serial)") 
+    $domain = (Read-Host -Prompt "        Enter domain name") 
+    #$username = "USERNAME"
+    #$password = "PASSWORD" | ConvertTo-SecureString -AsPlainText -Force
+    #$Credential = New-Object System.Management.Automation.PSCredential($username,$password)
+    Rename-Computer -NewName $NewComputerName 
+    Add-Computer -DomainName $domain -Credential $domain\ -options JoinWithNewName -Force
+})
 $AdminButton.Add_Click({
-        Countdown
-        $Password = (Read-Host -Prompt "Set password for the Administrator account" -AsSecureString)
-        $UserAccount = Get-LocalUser -Name "Administrator"
-        $UserAccount | Set-LocalUser -Password $Password
-        C:\WINDOWS\system32\net.exe user administrator /active:yes
-    })
+    Countdown
+    $Password = (Read-Host -Prompt "Set password for the Administrator account" -AsSecureString)
+    $UserAccount = Get-LocalUser -Name "Administrator"
+    $UserAccount | Set-LocalUser -Password $Password
+    C:\WINDOWS\system32\net.exe user administrator /active:yes
+})
 #$ConsoleButton.Add_Click({ $Null = [Win32.Functions]::ShowWindow($hWnd, $SW_SHOW) })
 $RunButton.Add_Click({
+    Countdown
+    Remove-WriteHost
+    $RunButton.Visibility = "hidden"
+    Countdown
+    $ProgressBar.Visibility = "Visible"
+    Countdown
+    $status.Visibility = "Visible"
+    Countdown
+    If ($WinLangSetup.IsChecked) { 
         Countdown
-        Remove-WriteHost
-        $RunButton.Visibility = "hidden"
+        $status.Content = "Setting Language, region, and keyboard languages... "
+        WinLangSetup
+        $WinLangSetup.IsChecked = $false
+    }
+    progCounter
+    If ($WinNetSetup.IsChecked) { 
         Countdown
-        $ProgressBar.Visibility = "Visible"
+        $status.Content = "Enabling firewall rule for Remote Desktop ... "
+        WinNetSetup
+        $WinNetSetup.IsChecked = $false
+    }
+    progCounter
+    If ($WinProxySetup.IsChecked) {
         Countdown
-        $status.Visibility = "Visible"
+        $status.Content = "Disabling proxy... "
+        WinProxySetup
+        $WinProxySetup.IsChecked = $false
+    }
+    If ($WinTimeSetup.IsChecked) {
         Countdown
-        If ($WinLangSetup.IsChecked) { 
-            Countdown
-            $status.Content = "Setting Language, region, and keyboard languages... "
-            WinLangSetup
-            $WinLangSetup.IsChecked = $false
-        }
-        progCounter
-        If ($WinNetSetup.IsChecked) { 
-            Countdown
-            $status.Content = "Enabling firewall rule for Remote Desktop ... "
-            WinNetSetup
-            $WinNetSetup.IsChecked = $false
-        }
-        progCounter
-        If ($WinProxySetup.IsChecked) {
-            Countdown
-            $status.Content = "Disabling proxy... "
-            WinProxySetup
-            $WinProxySetup.IsChecked = $false
-        }
-        If ($WinTimeSetup.IsChecked) {
-            Countdown
-            $status.Content = "Setting time and timezone... "
-            WinTimeSetup
-            $WinTimeSetup.IsChecked = $false
-        }
-        progCounter
-        If ($WinExplorerSetup.IsChecked ) {
-            Countdown
-            $status.Content = "Setting Windows Explorer and Taskbar settings... "
-            WinExplorerSetup
-            $WinExplorerSetup.IsChecked = $false
-        }
-        progCounter
-        If ($WinPowerSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
-            Countdown
-            $status.Content = "Setting active power plan to High Performance... "
-            WinPowerSetup
-            $WinPowerSetup.IsChecked = $false
-        }
-        progCounter
-        If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
-            Countdown
-            $status.Content = "Turning off display timer... "
-            PowerDisplayTimer
-            $PowerDisplayTimer.IsChecked = $false
-        }
-        progCounter
-        If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
-            Countdown
-            $status.Content = "Turning off computer sleep timer... "
-            PowerComputerTimer
-            $PowerComputerTimer.IsChecked = $false
-        }
-        progCounter
-        If ($WinAppRemove.IsChecked) {
-            Countdown
-            $status.Content = "Removing Windows Store apps... "
-            WinAppRemove
-            $WinAppRemove.IsChecked = $false
-        }
-        progCounter
-        If ($Option4.IsChecked) { }
-        progCounter
-        If ($Option5.IsChecked) { }
-        progCounter
-        If ($Option6.IsChecked) { }
-        progCounter
-        If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AppB4.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $AppC3.IsChecked -or $AppC4.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
-            Countdown
-            $status.Content = " Preparing to install applications... "
-            ChocoInstall
-        }
-        progCounter
-        If ($Chrome.IsChecked) {
-            Countdown
-            $status.Content = " Installing Google Chrome... "
-            Countdown
-            choco install googlechrome -y
-            $Chrome.IsChecked = $false
-        }
-        If ($Firefox.IsChecked) {
-            Countdown
-            $status.Content = " Installing Firefox... "
-            Countdown
-            choco install firefox -y
-            $Firefox.IsChecked = $false
-        }
-        progCounter
-        If ($Zoom.IsChecked) {
-            Countdown
-            $status.Content = " Installing Zoom... "
-            Countdown
-            choco install zoom -y
-            $Zoom.IsChecked = $false
-        }
-        progCounter
-        If ($Teams.IsChecked) {
-            Countdown
-            $status.Content = " Installing Microsoft Teams... "
-            Countdown
-            choco install microsoft-teams.install -y
-            $Teams.IsChecked = $false
+        $status.Content = "Setting time and timezone... "
+        WinTimeSetup
+        $WinTimeSetup.IsChecked = $false
+    }
+    progCounter
+    If ($WinExplorerSetup.IsChecked ) {
+        Countdown
+        $status.Content = "Setting Windows Explorer and Taskbar settings... "
+        WinExplorerSetup
+        $WinExplorerSetup.IsChecked = $false
+    }
+    progCounter
+    If ($WinPowerSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
+        Countdown
+        $status.Content = "Setting active power plan to High Performance... "
+        WinPowerSetup
+        $WinPowerSetup.IsChecked = $false
+    }
+    progCounter
+    If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
+        Countdown
+        $status.Content = "Turning off display timer... "
+        PowerDisplayTimer
+        $PowerDisplayTimer.IsChecked = $false
+    }
+    progCounter
+    If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
+        Countdown
+        $status.Content = "Turning off computer sleep timer... "
+        PowerComputerTimer
+        $PowerComputerTimer.IsChecked = $false
+    }
+    progCounter
+    If ($WinAppRemove.IsChecked) {
+        Countdown
+        $status.Content = "Removing Windows Store apps... "
+        WinAppRemove
+        $WinAppRemove.IsChecked = $false
+    }
+    progCounter
+    If ($Option4.IsChecked) { }
+    progCounter
+    If ($Option5.IsChecked) { }
+    progCounter
+    If ($Option6.IsChecked) { }
+    progCounter
+    If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AppB4.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $AppC3.IsChecked -or $AppC4.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
+        Countdown
+        $status.Content = " Preparing to install applications... "
+        ChocoInstall
+    }
+    progCounter
+    If ($Chrome.IsChecked) {
+        Countdown
+        $status.Content = " Installing Google Chrome... "
+        Countdown
+        choco install googlechrome -y
+        $Chrome.IsChecked = $false
+    }
+    If ($Firefox.IsChecked) {
+        Countdown
+        $status.Content = " Installing Firefox... "
+        Countdown
+        choco install firefox -y
+        $Firefox.IsChecked = $false
+    }
+    progCounter
+    If ($Zoom.IsChecked) {
+        Countdown
+        $status.Content = " Installing Zoom... "
+        Countdown
+        choco install zoom -y
+        $Zoom.IsChecked = $false
+    }
+    progCounter
+    If ($Teams.IsChecked) {
+        Countdown
+        $status.Content = " Installing Microsoft Teams... "
+        Countdown
+        choco install microsoft-teams.install -y
+        $Teams.IsChecked = $false
 
-        }
-        progCounter
-        If ($WinRAR.IsChecked) {
-            Countdown
-            $status.Content = " Installing WinRAR... "
-            Countdown
-            choco install WinRAR -y
-            $WinRAR.IsChecked = $false
+    }
+    progCounter
+    If ($WinRAR.IsChecked) {
+        Countdown
+        $status.Content = " Installing WinRAR... "
+        Countdown
+        choco install WinRAR -y
+        $WinRAR.IsChecked = $false
 
-        }
-        progCounter
-        If ($_7Zip.IsChecked) {
-            Countdown
-            $status.Content = " Installing 7Zip... "
-            Countdown
-            choco install 7Zip -y
-            $_7Zip.IsChecked = $false
+    }
+    progCounter
+    If ($_7Zip.IsChecked) {
+        Countdown
+        $status.Content = " Installing 7Zip... "
+        Countdown
+        choco install 7Zip -y
+        $_7Zip.IsChecked = $false
 
-        }
-        progCounter
-        If ($VLC.IsChecked) {
-            Countdown
-            $status.Content = " Installing VLC... "
-            Countdown
-            choco install vlc -y
-            $VLC.IsChecked = $false
-        }
-        progCounter
-        If ($AppB4.IsChecked) {
-        }
-        progCounter
-        If ($AnyDesk.IsChecked) {
-            Countdown
-            $status.Content = " Installing AnyDesk... "
-            Countdown
-            choco install anydesk.install -y
-            $AnyDesk.IsChecked = $false
+    }
+    progCounter
+    If ($VLC.IsChecked) {
+        Countdown
+        $status.Content = " Installing VLC... "
+        Countdown
+        choco install vlc -y
+        $VLC.IsChecked = $false
+    }
+    progCounter
+    If ($AppB4.IsChecked) {
+    }
+    progCounter
+    If ($AnyDesk.IsChecked) {
+        Countdown
+        $status.Content = " Installing AnyDesk... "
+        Countdown
+        choco install anydesk.install -y
+        $AnyDesk.IsChecked = $false
 
-        }
-        progCounter
-        If ($Team_Viewer.IsChecked) {
-            Countdown
-            $status.Content = " Installing Team Viewer... "
-            Countdown
-            choco install teamviewer -y
-            $Team_Viewer.IsChecked = $false
-        }
-        progCounter
-        If ($AppC3.IsChecked) {
-        }
-        progCounter
-        If ($AppC4.IsChecked) {
-        }
-        progCounter
-        If ($ACReader.IsChecked) {
-            Countdown
-            $status.Content = " Installing Adobe Acrobat Reader DC... "
-            Countdown
-            choco install adobereader -y
-            $ACReader.IsChecked = $false
+    }
+    progCounter
+    If ($Team_Viewer.IsChecked) {
+        Countdown
+        $status.Content = " Installing Team Viewer... "
+        Countdown
+        choco install teamviewer -y
+        $Team_Viewer.IsChecked = $false
+    }
+    progCounter
+    If ($AppC3.IsChecked) {
+    }
+    progCounter
+    If ($AppC4.IsChecked) {
+    }
+    progCounter
+    If ($ACReader.IsChecked) {
+        Countdown
+        $status.Content = " Installing Adobe Acrobat Reader DC... "
+        Countdown
+        choco install adobereader -y
+        $ACReader.IsChecked = $false
 
-        }
-        progCounter
-        If ($PuTTY.IsChecked) {
+    }
+    progCounter
+    If ($PuTTY.IsChecked) {
             Countdown
             $status.Content = " Installing PuTTY... "
             Countdown
             choco install putty -y
             $PuTTY.IsChecked = $false
 
-        }
-        progCounter
-        If ($FileZilla.IsChecked) {
-            Countdown
-            $status.Content = " Installing Filezilla... "
-            Countdown
-            choco install filezilla -y
-            $FileZilla.IsChecked = $false
+    }
+    progCounter
+    If ($FileZilla.IsChecked) {
+        Countdown
+        $status.Content = " Installing Filezilla... "
+        Countdown
+        choco install filezilla -y
+        $FileZilla.IsChecked = $false
 
-        }
-        progCounter
-        If ($VSCode.IsChecked) {
-            Countdown
-            $status.Content = " Installing Visual Studio Code... "
-            Countdown
-            choco install vscode -y
-            $VSCode.IsChecked = $false
+    }
+    progCounter
+    If ($VSCode.IsChecked) {
+        Countdown
+        $status.Content = " Installing Visual Studio Code... "
+        Countdown
+        choco install vscode -y
+        $VSCode.IsChecked = $false
 
-        }
-        progCounter
-        If (Test-Path -Path "$env:ProgramData\Chocolatey") {
-            Countdown
-            $status.Content = " Cleaning Up... "
-            Countdown
-            ChocoRemove
-        }
-        progCounter
-        If ($HDV.IsChecked) {
-        }
-        progCounter
-        If ($TXViewer.IsChecked) {
-        }
-        progCounter
-        $status.Content = " Setup Complete! "
-        $ProgressPreference = 'Continue'
-    })
+    }
+    progCounter
+    If (Test-Path -Path "$env:ProgramData\Chocolatey") {
+        Countdown
+        $status.Content = " Cleaning Up... "
+        Countdown
+        ChocoRemove
+    }
+    progCounter
+    If ($HDV.IsChecked -or $TXViewer.IsChecked){
+        $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
+    }
+    If ($HDV.IsChecked) {
+        Countdown
+        $status.Content = " Installing HD Viewer... "
+        Countdown
+        Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.HDV)`" /q"
+        Start-Sleep -s 5
+        $HDV.IsChecked = $false
+    }
+    progCounter
+    If ($TXViewer.IsChecked) {
+        Countdown
+        $status.Content = " Installing TX Viewer... "
+        Countdown
+        Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q"
+        Start-Sleep -s 5
+        $TXViewer.IsChecked = $false
+    }
+    progCounter
+    $status.Content = " Setup Complete! "
+    $ProgressPreference = 'Continue'
+})
 Function Countdown() {
     $Window.Dispatcher.Invoke([Action] {}, [Windows.Threading.DispatcherPriority]::ContextIdle);
 }
 $window.ShowDialog() | Out-Null
 $Window.Add_ContentRendered({    
-        Countdown   
-    })
+    Countdown   
+})
