@@ -676,11 +676,11 @@ $RunButton.Add_Click({
     }
     progCounter
     If ($PuTTY.IsChecked) {
-            Countdown
-            $status.Content = " Installing PuTTY... "
-            Countdown
-            choco install putty -y
-            $PuTTY.IsChecked = $false
+        Countdown
+        $status.Content = " Installing PuTTY... "
+        Countdown
+        choco install putty -y
+        $PuTTY.IsChecked = $false
 
     }
     progCounter
