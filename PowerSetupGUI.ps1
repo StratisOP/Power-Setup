@@ -710,7 +710,7 @@ $RunButton.Add_Click({
     }
     progCounter
     If ($HDV.IsChecked -or $TXViewer.IsChecked){
-        $location = Get-Content -Path PSSettings.json | ConvertFrom-Json
+        $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
     }
     If ($HDV.IsChecked) {
         Countdown
