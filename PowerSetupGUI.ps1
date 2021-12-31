@@ -148,7 +148,7 @@ function PowerExplorerSetup {
     Set-ItemProperty -Path $WinExpPath ShowRecent 0 
     #Show File Extensions
     Set-ItemProperty -Path $WinExpPathAdv HideFileExt 0
-    #Hide Cortana button
+    #Hide Cortana buttons
     Set-ItemProperty -Path $WinExpPathAdv ShowCortanaButton 0
     #Hide Task View button
     Set-ItemProperty -Path $WinExpPathAdv ShowTaskViewButton 0
@@ -233,7 +233,7 @@ Version="1">
 '@
     $taskbar | Out-File $env:temp\Layout.xml
     Import-StartLayout -LayoutPath "$env:temp\Layout.xml" -MountPath c:\
-    Stop-Process -processname explorer -ErrorAction SilentlyContinue
+    #Stop-Process -processname explorer -ErrorAction SilentlyContinue
 }
 function PowerPlanSetup {
     #Sets active power plan to High Performance
