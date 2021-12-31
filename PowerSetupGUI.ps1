@@ -374,9 +374,12 @@ function ChocoInstall {
 }
 function ChocoRemove {
     #Uninstall Chocolatey
-    Remove-Item -Recurse -Force "$env:ChocolateyInstall"
-    [System.Text.RegularExpressions.Regex]::Replace([Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString(), [System.Text.RegularExpressions.Regex]::Escape("$env:ChocolateyInstall\bin") + '(?>;)?', '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | ForEach-Object { [System.Environment]::SetEnvironmentVariable('PATH', $_, 'User') }
-    [System.Text.RegularExpressions.Regex]::Replace([Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\CurrentControlSet\Control\Session Manager\Environment\').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString(), [System.Text.RegularExpressions.Regex]::Escape("$env:ChocolateyInstall\bin") + '(?>;)?', '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | ForEach-Object { [System.Environment]::SetEnvironmentVariable('PATH', $_, 'Machine') }
+    Remove-Item -Path $env:ChocolateyInstall -Recurse -Force
+    'ChocolateyInstall', 'ChocolateyLastPathUpdate' | ForEach-Object {
+        foreach ($scope in 'User', 'Machine') {
+            [Environment]::SetEnvironmentVariable($_, [string]::Empty, $scope)
+        }
+    }    
     #Clear Temp in Appdata
     Remove-Item -Path $env:LOCALAPPDATA\Temp\* -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item -Path $env:LOCALAPPDATA\NuGet -Recurse -Force -ErrorAction SilentlyContinue
