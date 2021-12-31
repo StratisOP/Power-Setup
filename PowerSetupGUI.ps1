@@ -81,7 +81,7 @@ Add-Type -AssemblyName PresentationFramework
         <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="2" Visibility="Visible" />
         <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="3" Visibility="Visible"/>
         <TabControl x:Name="ApplicationSetup" Grid.ColumnSpan="4" Margin="0,126,0,10" Grid.RowSpan="2">
-            <TabItem x:Name="OnlineTab" Header="Online">
+            <TabItem x:Name="OnlineTab" Header="Online" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="Chrome" Content="Chrome" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="64"/>
                     <CheckBox x:Name="Firefox" Content="Firefox" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="58"/>
@@ -101,7 +101,7 @@ Add-Type -AssemblyName PresentationFramework
                     <CheckBox x:Name="VSCode" Content="VS Code" HorizontalAlignment="Left" Margin="407,72,0,0" Height="15" Width="125" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="LocalTab" Header="Local" Visibility="Visible">
+            <TabItem x:Name="LocalTab" Header="Local" Visibility="Collapsed">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="HDV" Content="HDV" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="44"/>
                     <CheckBox x:Name="TXViewer" Content="TXViewer" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="73"/>
@@ -462,7 +462,13 @@ $AppSetup = $Window.FindName("AppSetup")
 #$ConsoleButton = $Window.FindName("ConsoleButton")
 # Labels
 $status = $Window.FindName("StatusLBL")
+# Tabs
+$LocalTab = $Window.FindName("LocalTab")
 
+#Condition for local installations
+if (Test-Path PowerSetup.json) {
+    $LocalTab.Visibility="Visible"
+}
 # Click Actions
 $PowerSettings.Add_Click({
     $PowerLangSetup.IsChecked = (-not $PowerLangSetup.IsChecked)
@@ -473,7 +479,7 @@ $PowerSettings.Add_Click({
     $PowerPlanSetup.IsChecked = (-not $PowerPlanSetup.IsChecked)
     $PowerDisplayTimer.IsChecked = (-not $PowerDisplayTimer.IsChecked)
     $PowerComputerTimer.IsChecked = (-not $PowerComputerTimer.IsChecked)
-    $PowerAppRemove.IsChecked = (-not $WinAppRemove.IsChecked)
+    $PowerAppRemove.IsChecked = (-not $PowerAppRemove.IsChecked)
 })
 $AppSetup.Add_Click({
     $Chrome.IsChecked = (-not $Chrome.IsChecked)
