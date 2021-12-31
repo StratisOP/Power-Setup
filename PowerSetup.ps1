@@ -233,7 +233,7 @@ Version="1">
 '@
     $taskbar | Out-File $env:temp\Layout.xml
     Import-StartLayout -LayoutPath "$env:temp\Layout.xml" -MountPath c:\
-    #Stop-Process -processname explorer -ErrorAction SilentlyContinue
+    Stop-Process -processname explorer -ErrorAction SilentlyContinue
 }
 function PowerPlanSetup {
     #Sets active power plan to High Performance
