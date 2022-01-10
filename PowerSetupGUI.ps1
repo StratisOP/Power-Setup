@@ -199,7 +199,7 @@ function PowerExplorerSetup {
         New-Item -Path HKCU:\SOFTWARE\Policies\Microsoft\Windows -Name Explorer | Out-Null
     }
     Set-ItemProperty -Path $PolWinExp -Name DisableSearchBoxSuggestions 1
-
+    Stop-Process -processname explorer -ErrorAction SilentlyContinue
     #Set taskbar layout
     $taskbar = @'
 <LayoutModificationTemplate
@@ -414,6 +414,43 @@ function progCounter {
     $ProgressBar.value += 1
     Countdown
 }
+function DisableWpf {
+    $PowerExplorerSetup.IsEnabled= $false
+    $PowerAppRemove.IsEnabled= $false
+    $PowerLangSetup.IsEnabled= $false
+    $PowerNetSetup.IsEnabled= $false
+    $PowerProxySetup.IsEnabled= $false
+    $PowerTimeSetup.IsEnabled= $false
+    $PowerPlanSetup.IsEnabled= $false
+    $PowerDisplayTimer.IsEnabled= $false
+    $PowerComputerTimer.IsEnabled= $false
+    $Option4.IsEnabled= $false
+    $Option5.IsEnabled= $false
+    $Option6.IsEnabled= $false
+    $Chrome.IsEnabled= $false
+    $Firefox.IsEnabled= $false
+    $Zoom.IsEnabled= $false
+    $Teams.IsEnabled= $false
+    $WinRAR.IsEnabled= $false
+    $_7Zip.IsEnabled= $false
+    $VLC.IsEnabled= $false
+    $AppB4.IsEnabled= $false
+    $AnyDesk.IsEnabled= $false
+    $Team_Viewer.IsEnabled= $false
+    $AppC3.IsEnabled= $false
+    $AppC4.IsEnabled= $false
+    $ACReader.IsEnabled= $false
+    $PuTTY.IsEnabled= $false
+    $FileZilla.IsEnabled= $false
+    $VSCode.IsEnabled= $false
+    $HDV.IsEnabled= $false
+    $TXViewer.IsEnabled= $false
+    $RunButton.IsEnabled= $false
+    $DomainButton.IsEnabled= $false
+    $AdminButton.IsEnabled= $false
+    $PowerSettings.IsEnabled= $false
+    $AppSetup.IsEnabled= $false
+}
 # XAML objects
 # Windows Settings Checkboxes
 #Grid A
@@ -510,6 +547,7 @@ $AdminButton.Add_Click({
 #$ConsoleButton.Add_Click({ $Null = [Win32.Functions]::ShowWindow($hWnd, $SW_SHOW) })
 $RunButton.Add_Click({
     Countdown
+    DisableWpf
     Remove-WriteHost
     $RunButton.Visibility = "hidden"
     Countdown
