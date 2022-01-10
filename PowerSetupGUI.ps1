@@ -14,7 +14,7 @@ Add-Type -AssemblyName PresentationFramework
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:WinSetupGUI"
+    xmlns:local="clr-namespace:PowerSetup"
     Title="Power Setup" Height="400" Width="600"
     ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid Margin="25,40,25,10">
@@ -76,7 +76,7 @@ Add-Type -AssemblyName PresentationFramework
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="30"/>
+        <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="31"/>
         <Label x:Name="StatusLBL" Content="Starting..." HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="500" Height="33" Margin="24,11,0,0" Grid.Row="2" Visibility="Collapsed"/>
         <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="2" Visibility="Visible" />
         <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="3" Visibility="Visible"/>
@@ -499,7 +499,6 @@ $DomainButton = $Window.FindName("DomainButton")
 $AdminButton = $Window.FindName("AdminButton")
 $PowerSettings = $Window.FindName("PowerSettings")
 $AppSetup = $Window.FindName("AppSetup")
-#$ConsoleButton = $Window.FindName("ConsoleButton")
 # Labels
 $status = $Window.FindName("StatusLBL")
 # Tabs
@@ -544,7 +543,6 @@ $AdminButton.Add_Click({
     $UserAccount | Set-LocalUser -Password $Password
     C:\WINDOWS\system32\net.exe user administrator /active:yes
 })
-#$ConsoleButton.Add_Click({ $Null = [Win32.Functions]::ShowWindow($hWnd, $SW_SHOW) })
 $RunButton.Add_Click({
     Countdown
     DisableWpf
