@@ -40,7 +40,7 @@ Add-Type -AssemblyName PresentationFramework
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <Button x:Name="AppSetup" Content="Application Setup" HorizontalAlignment="Left" Margin="-72,43,0,0" VerticalAlignment="Top" Width="115" Height="25" Visibility="Visible" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" Grid.Row="1" BorderBrush="{x:Null}" >
+        <Button x:Name="AppSetup" Content="Application Setup" HorizontalAlignment="Left" Margin="-72,39,0,0" VerticalAlignment="Top" Width="115" Height="25" Visibility="Visible" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" Grid.Row="1" BorderBrush="{x:Null}" >
             <Button.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -55,7 +55,7 @@ Add-Type -AssemblyName PresentationFramework
         <CheckBox x:Name="PowerAppRemove" Content="Remove Built in Windows apps" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,20,0,0" Height="15" Width="187" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerLangSetup" Content="Set Language, Region and Keyboard" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,40,0,0" Height="15" Width="214" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerNetSetup" Content="Enable firewall rule for Remote Desktop" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Height="15" Width="232" Grid.ColumnSpan="2" Margin="0,61,0,0"/>
-        <CheckBox x:Name="PowerProxySetup" Content="Disable Automatically Detect proxy settings" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,80,0,0" Height="15" Width="253" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerProxySetup" Content="Disable automatically detecting proxy" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,80,0,0" Height="15" Width="253" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerTimeSetup" Content="Set time and timezone automatically" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0" Height="15" Width="214" IsChecked="False" Grid.ColumnSpan="2"/>
 
         <CheckBox x:Name="PowerPlanSetup" Content="Set High Perfomance power plan" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Height="15" Width="197" Grid.ColumnSpan="2"/>
@@ -78,8 +78,8 @@ Add-Type -AssemblyName PresentationFramework
         </Button>
         <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="31"/>
         <Label x:Name="StatusLBL" Content="Starting..." HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="500" Height="33" Margin="24,11,0,0" Grid.Row="2" Visibility="Collapsed"/>
-        <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="2" Visibility="Visible" />
-        <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="3" Visibility="Visible"/>
+        <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="2" Visibility="Collapsed" />
+        <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="3" Visibility="Collapsed"/>
         <TabControl x:Name="ApplicationSetup" Grid.ColumnSpan="4" Margin="0,126,0,10" Grid.RowSpan="2">
             <TabItem x:Name="OnlineTab" Header="Online" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
@@ -557,62 +557,62 @@ $RunButton.Add_Click({
         Countdown
         $status.Content = "Setting Language, region, and keyboard languages... "
         PowerLangSetup
-        $PowerLangSetup.IsChecked = $false
+        #$PowerLangSetup.IsChecked = $false
     }
     progCounter
     If ($PowerNetSetup.IsChecked) { 
         Countdown
         $status.Content = "Enabling firewall rule for Remote Desktop ... "
         PowerNetSetup
-        $PowerNetSetup.IsChecked = $false
+        #$PowerNetSetup.IsChecked = $false
     }
     progCounter
     If ($PowerProxySetup.IsChecked) {
         Countdown
         $status.Content = "Disabling proxy... "
         PowerProxySetup
-        $PowerProxySetup.IsChecked = $false
+       #$PowerProxySetup.IsChecked = $false
     }
     If ($PowerTimeSetup.IsChecked) {
         Countdown
         $status.Content = "Setting time and timezone... "
         PowerTimeSetup
-        $PowerTimeSetup.IsChecked = $false
+        #$PowerTimeSetup.IsChecked = $false
     }
     progCounter
     If ($PowerExplorerSetup.IsChecked ) {
         Countdown
         $status.Content = "Setting Windows Explorer and Taskbar settings... "
         PowerExplorerSetup
-        $PowerExplorerSetup.IsChecked = $false
+        #$PowerExplorerSetup.IsChecked = $false
     }
     progCounter
     If ($PowerPlanSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
         Countdown
         $status.Content = "Setting active power plan to High Performance... "
         PowerPlanSetup
-        $PowerPlanSetup.IsChecked = $false
+        #$PowerPlanSetup.IsChecked = $false
     }
     progCounter
     If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
         Countdown
         $status.Content = "Turning off display timer... "
         PowerDisplayTimer
-        $PowerDisplayTimer.IsChecked = $false
+        #$PowerDisplayTimer.IsChecked = $false
     }
     progCounter
     If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
         Countdown
         $status.Content = "Turning off computer sleep timer... "
         PowerComputerTimer
-        $PowerComputerTimer.IsChecked = $false
+       #$PowerComputerTimer.IsChecked = $false
     }
     progCounter
     If ($PowerAppRemove.IsChecked) {
         Countdown
         $status.Content = "Removing Windows Store apps... "
         PowerAppRemove
-        $PowerAppRemove.IsChecked = $false
+        #$PowerAppRemove.IsChecked = $false
     }
     progCounter
     If ($Option4.IsChecked) { }
@@ -624,6 +624,7 @@ $RunButton.Add_Click({
     If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AppB4.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $AppC3.IsChecked -or $AppC4.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
         Countdown
         $status.Content = " Preparing to install applications... "
+        Countdown
         ChocoInstall
     }
     progCounter
@@ -632,14 +633,14 @@ $RunButton.Add_Click({
         $status.Content = " Installing Google Chrome... "
         Countdown
         choco install googlechrome -y
-        $Chrome.IsChecked = $false
+        #$Chrome.IsChecked = $false
     }
     If ($Firefox.IsChecked) {
         Countdown
         $status.Content = " Installing Firefox... "
         Countdown
         choco install firefox -y
-        $Firefox.IsChecked = $false
+        #$Firefox.IsChecked = $false
     }
     progCounter
     If ($Zoom.IsChecked) {
@@ -647,7 +648,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing Zoom... "
         Countdown
         choco install zoom -y
-        $Zoom.IsChecked = $false
+        #$Zoom.IsChecked = $false
     }
     progCounter
     If ($Teams.IsChecked) {
@@ -655,7 +656,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing Microsoft Teams... "
         Countdown
         choco install microsoft-teams.install -y
-        $Teams.IsChecked = $false
+        #$Teams.IsChecked = $false
 
     }
     progCounter
@@ -664,7 +665,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing WinRAR... "
         Countdown
         choco install WinRAR -y
-        $WinRAR.IsChecked = $false
+       #$WinRAR.IsChecked = $false
 
     }
     progCounter
@@ -673,7 +674,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing 7Zip... "
         Countdown
         choco install 7Zip -y
-        $_7Zip.IsChecked = $false
+        #$_7Zip.IsChecked = $false
 
     }
     progCounter
@@ -682,7 +683,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing VLC... "
         Countdown
         choco install vlc -y
-        $VLC.IsChecked = $false
+        #$VLC.IsChecked = $false
     }
     progCounter
     If ($AppB4.IsChecked) {
@@ -693,7 +694,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing AnyDesk... "
         Countdown
         choco install anydesk.install -y
-        $AnyDesk.IsChecked = $false
+        #$AnyDesk.IsChecked = $false
 
     }
     progCounter
@@ -702,7 +703,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing Team Viewer... "
         Countdown
         choco install teamviewer -y
-        $Team_Viewer.IsChecked = $false
+        #$Team_Viewer.IsChecked = $false
     }
     progCounter
     If ($AppC3.IsChecked) {
@@ -716,7 +717,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing Adobe Acrobat Reader DC... "
         Countdown
         choco install adobereader -y
-        $ACReader.IsChecked = $false
+        #$ACReader.IsChecked = $false
 
     }
     progCounter
@@ -725,7 +726,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing PuTTY... "
         Countdown
         choco install putty -y
-        $PuTTY.IsChecked = $false
+        #$PuTTY.IsChecked = $false
 
     }
     progCounter
@@ -734,7 +735,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing Filezilla... "
         Countdown
         choco install filezilla -y
-        $FileZilla.IsChecked = $false
+        #$FileZilla.IsChecked = $false
 
     }
     progCounter
@@ -743,7 +744,7 @@ $RunButton.Add_Click({
         $status.Content = " Installing Visual Studio Code... "
         Countdown
         choco install vscode -y
-        $VSCode.IsChecked = $false
+        #$VSCode.IsChecked = $false
 
     }
     progCounter
@@ -763,7 +764,7 @@ $RunButton.Add_Click({
         Countdown
         Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.HDV)`" /q"
         Start-Sleep -s 5
-        $HDV.IsChecked = $false
+        #$HDV.IsChecked = $false
     }
     progCounter
     If ($TXViewer.IsChecked) {
@@ -772,7 +773,7 @@ $RunButton.Add_Click({
         Countdown
         Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q"
         Start-Sleep -s 5
-        $TXViewer.IsChecked = $false
+        #$TXViewer.IsChecked = $false
     }
     progCounter
     $status.Content = " Setup Complete! "
