@@ -412,7 +412,7 @@ function Remove-WriteHost {
 function progCounter {
     #Progress Bar Counter
     $ProgressBar.value += 1
-    Countdown
+    Update-Gui
 }
 function DisableWpf {
     $PowerExplorerSetup.IsEnabled= $false
@@ -537,79 +537,79 @@ $DomainButton.Add_Click({
     Add-Computer -DomainName $domain -Credential $domain\ -options JoinWithNewName -Force
 })
 $AdminButton.Add_Click({
-    Countdown
+    Update-Gui
     $Password = (Read-Host -Prompt "Set password for the Administrator account" -AsSecureString)
     $UserAccount = Get-LocalUser -Name "Administrator"
     $UserAccount | Set-LocalUser -Password $Password
     C:\WINDOWS\system32\net.exe user administrator /active:yes
 })
 $RunButton.Add_Click({
-    Countdown
+    Update-Gui
     DisableWpf
     Remove-WriteHost
     $RunButton.Visibility = "hidden"
-    Countdown
+    Update-Gui
     $ProgressBar.Visibility = "Visible"
-    Countdown
+    Update-Gui
     $status.Visibility = "Visible"
-    Countdown
+    Update-Gui
     If ($PowerLangSetup.IsChecked) { 
-        Countdown
+        Update-Gui
         $status.Content = "Setting Language, region, and keyboard languages... "
         PowerLangSetup
         #$PowerLangSetup.IsChecked = $false
     }
     progCounter
     If ($PowerNetSetup.IsChecked) { 
-        Countdown
+        Update-Gui
         $status.Content = "Enabling firewall rule for Remote Desktop ... "
         PowerNetSetup
         #$PowerNetSetup.IsChecked = $false
     }
     progCounter
     If ($PowerProxySetup.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = "Disabling proxy... "
         PowerProxySetup
        #$PowerProxySetup.IsChecked = $false
     }
     If ($PowerTimeSetup.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = "Setting time and timezone... "
         PowerTimeSetup
         #$PowerTimeSetup.IsChecked = $false
     }
     progCounter
     If ($PowerExplorerSetup.IsChecked ) {
-        Countdown
+        Update-Gui
         $status.Content = "Setting Windows Explorer and Taskbar settings... "
         PowerExplorerSetup
         #$PowerExplorerSetup.IsChecked = $false
     }
     progCounter
     If ($PowerPlanSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
-        Countdown
+        Update-Gui
         $status.Content = "Setting active power plan to High Performance... "
         PowerPlanSetup
         #$PowerPlanSetup.IsChecked = $false
     }
     progCounter
     If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
-        Countdown
+        Update-Gui
         $status.Content = "Turning off display timer... "
         PowerDisplayTimer
         #$PowerDisplayTimer.IsChecked = $false
     }
     progCounter
     If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
-        Countdown
+        Update-Gui
         $status.Content = "Turning off computer sleep timer... "
         PowerComputerTimer
        #$PowerComputerTimer.IsChecked = $false
     }
     progCounter
     If ($PowerAppRemove.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = "Removing Windows Store apps... "
         PowerAppRemove
         #$PowerAppRemove.IsChecked = $false
@@ -622,66 +622,66 @@ $RunButton.Add_Click({
     If ($Option6.IsChecked) { }
     progCounter
     If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AppB4.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $AppC3.IsChecked -or $AppC4.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Preparing to install applications... "
-        Countdown
+        Update-Gui
         ChocoInstall
     }
     progCounter
     If ($Chrome.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing Google Chrome... "
-        Countdown
+        Update-Gui
         choco install googlechrome -y
         #$Chrome.IsChecked = $false
     }
     If ($Firefox.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing Firefox... "
-        Countdown
+        Update-Gui
         choco install firefox -y
         #$Firefox.IsChecked = $false
     }
     progCounter
     If ($Zoom.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing Zoom... "
-        Countdown
+        Update-Gui
         choco install zoom -y
         #$Zoom.IsChecked = $false
     }
     progCounter
     If ($Teams.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing Microsoft Teams... "
-        Countdown
+        Update-Gui
         choco install microsoft-teams.install -y
         #$Teams.IsChecked = $false
 
     }
     progCounter
     If ($WinRAR.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing WinRAR... "
-        Countdown
+        Update-Gui
         choco install WinRAR -y
        #$WinRAR.IsChecked = $false
 
     }
     progCounter
     If ($_7Zip.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing 7Zip... "
-        Countdown
+        Update-Gui
         choco install 7Zip -y
         #$_7Zip.IsChecked = $false
 
     }
     progCounter
     If ($VLC.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing VLC... "
-        Countdown
+        Update-Gui
         choco install vlc -y
         #$VLC.IsChecked = $false
     }
@@ -690,18 +690,18 @@ $RunButton.Add_Click({
     }
     progCounter
     If ($AnyDesk.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing AnyDesk... "
-        Countdown
+        Update-Gui
         choco install anydesk.install -y
         #$AnyDesk.IsChecked = $false
 
     }
     progCounter
     If ($Team_Viewer.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing Team Viewer... "
-        Countdown
+        Update-Gui
         choco install teamviewer -y
         #$Team_Viewer.IsChecked = $false
     }
@@ -713,45 +713,45 @@ $RunButton.Add_Click({
     }
     progCounter
     If ($ACReader.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing Adobe Acrobat Reader DC... "
-        Countdown
+        Update-Gui
         choco install adobereader -y
         #$ACReader.IsChecked = $false
 
     }
     progCounter
     If ($PuTTY.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing PuTTY... "
-        Countdown
+        Update-Gui
         choco install putty -y
         #$PuTTY.IsChecked = $false
 
     }
     progCounter
     If ($FileZilla.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing Filezilla... "
-        Countdown
+        Update-Gui
         choco install filezilla -y
         #$FileZilla.IsChecked = $false
 
     }
     progCounter
     If ($VSCode.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing Visual Studio Code... "
-        Countdown
+        Update-Gui
         choco install vscode -y
         #$VSCode.IsChecked = $false
 
     }
     progCounter
     If (Test-Path -Path "$env:ProgramData\Chocolatey") {
-        Countdown
+        Update-Gui
         $status.Content = " Cleaning Up... "
-        Countdown
+        Update-Gui
         ChocoRemove
     }
     progCounter
@@ -759,18 +759,18 @@ $RunButton.Add_Click({
         $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
     }
     If ($HDV.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing HD Viewer... "
-        Countdown
+        Update-Gui
         Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.HDV)`" /q"
         Start-Sleep -s 5
         #$HDV.IsChecked = $false
     }
     progCounter
     If ($TXViewer.IsChecked) {
-        Countdown
+        Update-Gui
         $status.Content = " Installing TX Viewer... "
-        Countdown
+        Update-Gui
         Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q"
         Start-Sleep -s 5
         #$TXViewer.IsChecked = $false
@@ -779,10 +779,11 @@ $RunButton.Add_Click({
     $status.Content = " Setup Complete! "
     $ProgressPreference = 'Continue'
 })
-Function Countdown() {
-    $Window.Dispatcher.Invoke([Action] {}, [Windows.Threading.DispatcherPriority]::ContextIdle);
+Function Update-Gui() {
+    #$Window.Dispatcher.Invoke([Action] {}, [Windows.Threading.DispatcherPriority]::ContextIdle);
+    $Window.Dispatcher.Invoke([Windows.Threading.DispatcherPriority]::Background, [action]{})
 }
 $window.ShowDialog() | Out-Null
 $Window.Add_ContentRendered({    
-    Countdown   
+    Update-Gui   
 })
