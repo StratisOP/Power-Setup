@@ -61,7 +61,7 @@
                 </TransformGroup>
             </Button.RenderTransform>
         </Button>
-        <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="31"/>
+        <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="25"/>
         <Label x:Name="StatusLBL" Content="Starting..." HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="500" Height="33" Margin="24,11,0,0" Grid.Row="2" Visibility="Collapsed"/>
         <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="2" Visibility="Collapsed" />
         <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="3" Visibility="Collapsed"/>

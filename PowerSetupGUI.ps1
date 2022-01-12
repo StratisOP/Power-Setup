@@ -1,11 +1,3 @@
-# Hide console
-$SW_HIDE, $SW_SHOW = 0, 5
-$TypeDef = '[DllImport("User32.dll")]public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);'
-Add-Type -MemberDefinition $TypeDef -Namespace Win32 -Name Functions
-$hWnd = (Get-Process -Id $PID).MainWindowHandle
-$Null = [Win32.Functions]::ShowWindow($hWnd, $SW_HIDE)
-# Hide Progress Prompts
-$ProgressPreference = 'SilentlyContinue'
 function Import-Xaml {
 #Import Xaml for MainWindow
     [System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
@@ -405,6 +397,8 @@ $LocalTab = $Window.FindName("LocalTab")
 if (Test-Path PowerSetup.json) {
     $LocalTab.Visibility="Visible"
 }
+# Hide Progress Prompts
+$ProgressPreference = 'SilentlyContinue'
 # Click Actions
 $PowerSettings.Add_Click({
     $PowerLangSetup.IsChecked = (-not $PowerLangSetup.IsChecked)
@@ -512,13 +506,7 @@ $RunButton.Add_Click({
         #$PowerAppRemove.IsChecked = $false
     }
     progCounter
-    If ($Option4.IsChecked) { }
-    progCounter
-    If ($Option5.IsChecked) { }
-    progCounter
-    If ($Option6.IsChecked) { }
-    progCounter
-    If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AppB4.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $AppC3.IsChecked -or $AppC4.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
+    If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
         Update-Gui
         $status.Content = " Preparing to install applications... "
         Update-Gui
@@ -532,6 +520,7 @@ $RunButton.Add_Click({
         choco install googlechrome -y
         #$Chrome.IsChecked = $false
     }
+    progCounter
     If ($Firefox.IsChecked) {
         Update-Gui
         $status.Content = " Installing Firefox... "
@@ -583,9 +572,6 @@ $RunButton.Add_Click({
         #$VLC.IsChecked = $false
     }
     progCounter
-    If ($AppB4.IsChecked) {
-    }
-    progCounter
     If ($AnyDesk.IsChecked) {
         Update-Gui
         $status.Content = " Installing AnyDesk... "
@@ -601,12 +587,6 @@ $RunButton.Add_Click({
         Update-Gui
         choco install teamviewer -y
         #$Team_Viewer.IsChecked = $false
-    }
-    progCounter
-    If ($AppC3.IsChecked) {
-    }
-    progCounter
-    If ($AppC4.IsChecked) {
     }
     progCounter
     If ($ACReader.IsChecked) {
