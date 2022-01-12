@@ -1,5 +1,5 @@
 function Import-Xaml {
-#Import Xaml for MainWindow
+    #Import Xaml for MainWindow
     [System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
     [xml]$xaml = Get-Content -Path "$PSScriptRoot\PowerSetupWPF.xaml"
     $manager = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xaml.NameTable
@@ -289,7 +289,7 @@ function Remove-WriteHost {
  
     begin {
         function Cleanup {
-            remove-item function:\write-host -ea 0
+            Remove-Item function:\write-host -ea 0
         }
  
         function ReplaceWriteHost([string] $Scope) {
@@ -307,36 +307,36 @@ function progCounter {
     Update-Gui
 }
 function DisableWpf {
-    $PowerExplorerSetup.IsEnabled= $false
-    $PowerAppRemove.IsEnabled= $false
-    $PowerLangSetup.IsEnabled= $false
-    $PowerNetSetup.IsEnabled= $false
-    $PowerProxySetup.IsEnabled= $false
-    $PowerTimeSetup.IsEnabled= $false
-    $PowerPlanSetup.IsEnabled= $false
-    $PowerDisplayTimer.IsEnabled= $false
-    $PowerComputerTimer.IsEnabled= $false
-    $Chrome.IsEnabled= $false
-    $Firefox.IsEnabled= $false
-    $Zoom.IsEnabled= $false
-    $Teams.IsEnabled= $false
-    $WinRAR.IsEnabled= $false
-    $_7Zip.IsEnabled= $false
-    $VLC.IsEnabled= $false
-    $AnyDesk.IsEnabled= $false
-    $Team_Viewer.IsEnabled= $false
-    $ACReader.IsEnabled= $false
-    $PuTTY.IsEnabled= $false
-    $FileZilla.IsEnabled= $false
-    $VSCode.IsEnabled= $false
-    $HDV.IsEnabled= $false
-    $TXViewer.IsEnabled= $false
-    $iNews.IsEnabled= $false
-    $RunButton.IsEnabled= $false
-    $DomainButton.IsEnabled= $false
-    $AdminButton.IsEnabled= $false
-    $PowerSettings.IsEnabled= $false
-    $AppSetup.IsEnabled= $false
+    $PowerExplorerSetup.IsEnabled = $false
+    $PowerAppRemove.IsEnabled = $false
+    $PowerLangSetup.IsEnabled = $false
+    $PowerNetSetup.IsEnabled = $false
+    $PowerProxySetup.IsEnabled = $false
+    $PowerTimeSetup.IsEnabled = $false
+    $PowerPlanSetup.IsEnabled = $false
+    $PowerDisplayTimer.IsEnabled = $false
+    $PowerComputerTimer.IsEnabled = $false
+    $Chrome.IsEnabled = $false
+    $Firefox.IsEnabled = $false
+    $Zoom.IsEnabled = $false
+    $Teams.IsEnabled = $false
+    $WinRAR.IsEnabled = $false
+    $_7Zip.IsEnabled = $false
+    $VLC.IsEnabled = $false
+    $AnyDesk.IsEnabled = $false
+    $Team_Viewer.IsEnabled = $false
+    $ACReader.IsEnabled = $false
+    $PuTTY.IsEnabled = $false
+    $FileZilla.IsEnabled = $false
+    $VSCode.IsEnabled = $false
+    $HDV.IsEnabled = $false
+    $TXViewer.IsEnabled = $false
+    $iNews.IsEnabled = $false
+    $RunButton.IsEnabled = $false
+    $DomainButton.IsEnabled = $false
+    $AdminButton.IsEnabled = $false
+    $PowerSettings.IsEnabled = $false
+    $AppSetup.IsEnabled = $false
 }
 #Build the GUI
 $window = Import-Xaml
@@ -395,276 +395,268 @@ $LocalTab = $Window.FindName("LocalTab")
 
 #Condition for local installations
 if (Test-Path PowerSetup.json) {
-    $LocalTab.Visibility="Visible"
+    $LocalTab.Visibility = "Visible"
 }
 # Hide Progress Prompts
 $ProgressPreference = 'SilentlyContinue'
 # Click Actions
 $PowerSettings.Add_Click({
-    $PowerLangSetup.IsChecked = (-not $PowerLangSetup.IsChecked)
-    $PowerNetSetup.IsChecked =(-not $PowerNetSetup.IsChecked)
-    $PowerProxySetup.IsChecked = (-not $PowerProxySetup.IsChecked)
-    $PowerTimeSetup.IsChecked = (-not $PowerTimeSetup.IsChecked)
-    $PowerExplorerSetup.IsChecked = (-not $PowerExplorerSetup.IsChecked)
-    $PowerPlanSetup.IsChecked = (-not $PowerPlanSetup.IsChecked)
-    $PowerDisplayTimer.IsChecked = (-not $PowerDisplayTimer.IsChecked)
-    $PowerComputerTimer.IsChecked = (-not $PowerComputerTimer.IsChecked)
-    $PowerAppRemove.IsChecked = (-not $PowerAppRemove.IsChecked)
-})
+        $PowerLangSetup.IsChecked = (-not $PowerLangSetup.IsChecked)
+        $PowerNetSetup.IsChecked = (-not $PowerNetSetup.IsChecked)
+        $PowerProxySetup.IsChecked = (-not $PowerProxySetup.IsChecked)
+        $PowerTimeSetup.IsChecked = (-not $PowerTimeSetup.IsChecked)
+        $PowerExplorerSetup.IsChecked = (-not $PowerExplorerSetup.IsChecked)
+        $PowerPlanSetup.IsChecked = (-not $PowerPlanSetup.IsChecked)
+        $PowerDisplayTimer.IsChecked = (-not $PowerDisplayTimer.IsChecked)
+        $PowerComputerTimer.IsChecked = (-not $PowerComputerTimer.IsChecked)
+        $PowerAppRemove.IsChecked = (-not $PowerAppRemove.IsChecked)
+    })
 $AppSetup.Add_Click({
-    $Chrome.IsChecked = (-not $Chrome.IsChecked)
-    $Firefox.IsChecked =(-not $Firefox.IsChecked)
-    $WinRAR.IsChecked = (-not $WinRAR.IsChecked)
-    $VLC.IsChecked = (-not $VLC.IsChecked)
-})
+        $Chrome.IsChecked = (-not $Chrome.IsChecked)
+        $Firefox.IsChecked = (-not $Firefox.IsChecked)
+        $WinRAR.IsChecked = (-not $WinRAR.IsChecked)
+        $VLC.IsChecked = (-not $VLC.IsChecked)
+    })
 $DomainButton.Add_Click({ 
-    $Serial = Get-WMIObject -Class "Win32_BIOS" | Select-Object -Expand SerialNumber
-    $NewComputerName = (Read-Host -Prompt "Set Computer Name (with serial number: $Serial)") 
-    $domain = (Read-Host -Prompt "        Enter domain name") 
-    #$username = "USERNAME"
-    #$password = "PASSWORD" | ConvertTo-SecureString -AsPlainText -Force
-    #$Credential = New-Object System.Management.Automation.PSCredential($username,$password)
-    Rename-Computer -NewName $NewComputerName 
-    Add-Computer -DomainName $domain -Credential $domain\ -options JoinWithNewName -Force
-})
+        $Serial = Get-WmiObject -Class "Win32_BIOS" | Select-Object -Expand SerialNumber
+        $NewComputerName = (Read-Host -Prompt "Set Computer Name (with serial number: $Serial)") 
+        $domain = (Read-Host -Prompt "        Enter domain name") 
+        #$username = "USERNAME"
+        #$password = "PASSWORD" | ConvertTo-SecureString -AsPlainText -Force
+        #$Credential = New-Object System.Management.Automation.PSCredential($username,$password)
+        Rename-Computer -NewName $NewComputerName 
+        Add-Computer -DomainName $domain -Credential $domain\ -Options JoinWithNewName -Force
+    })
 $AdminButton.Add_Click({
-    Update-Gui
-    $Password = (Read-Host -Prompt "Set password for the Administrator account" -AsSecureString)
-    $UserAccount = Get-LocalUser -Name "Administrator"
-    $UserAccount | Set-LocalUser -Password $Password
-    C:\WINDOWS\system32\net.exe user administrator /active:yes
-})
+        Update-Gui
+        $Password = (Read-Host -Prompt "Set password for the Administrator account" -AsSecureString)
+        $UserAccount = Get-LocalUser -Name "Administrator"
+        $UserAccount | Set-LocalUser -Password $Password
+        C:\WINDOWS\system32\net.exe user administrator /active:yes
+    })
 $RunButton.Add_Click({
-    Update-Gui
-    DisableWpf
-    Remove-WriteHost
-    $RunButton.Visibility = "hidden"
-    Update-Gui
-    $ProgressBar.Visibility = "Visible"
-    Update-Gui
-    $status.Visibility = "Visible"
-    Update-Gui
-    If ($PowerLangSetup.IsChecked) { 
         Update-Gui
-        $status.Content = "Setting Language, region, and keyboard languages... "
-        PowerLangSetup
-        #$PowerLangSetup.IsChecked = $false
-    }
-    progCounter
-    If ($PowerNetSetup.IsChecked) { 
+        DisableWpf
+        Remove-WriteHost
+        $RunButton.Visibility = "hidden"
         Update-Gui
-        $status.Content = "Enabling firewall rule for Remote Desktop ... "
-        PowerNetSetup
-        #$PowerNetSetup.IsChecked = $false
-    }
-    progCounter
-    If ($PowerProxySetup.IsChecked) {
+        $ProgressBar.Visibility = "Visible"
         Update-Gui
-        $status.Content = "Disabling proxy... "
-        PowerProxySetup
-       #$PowerProxySetup.IsChecked = $false
-    }
-    If ($PowerTimeSetup.IsChecked) {
+        $status.Visibility = "Visible"
         Update-Gui
-        $status.Content = "Setting time and timezone... "
-        PowerTimeSetup
-        #$PowerTimeSetup.IsChecked = $false
-    }
-    progCounter
-    If ($PowerExplorerSetup.IsChecked ) {
-        Update-Gui
-        $status.Content = "Setting Windows Explorer and Taskbar settings... "
-        PowerExplorerSetup
-        #$PowerExplorerSetup.IsChecked = $false
-    }
-    progCounter
-    If ($PowerPlanSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
-        Update-Gui
-        $status.Content = "Setting active power plan to High Performance... "
-        PowerPlanSetup
-        #$PowerPlanSetup.IsChecked = $false
-    }
-    progCounter
-    If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
-        Update-Gui
-        $status.Content = "Turning off display timer... "
-        PowerDisplayTimer
-        #$PowerDisplayTimer.IsChecked = $false
-    }
-    progCounter
-    If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
-        Update-Gui
-        $status.Content = "Turning off computer sleep timer... "
-        PowerComputerTimer
-       #$PowerComputerTimer.IsChecked = $false
-    }
-    progCounter
-    If ($PowerAppRemove.IsChecked) {
-        Update-Gui
-        $status.Content = "Removing Windows Store apps... "
-        PowerAppRemove
-        #$PowerAppRemove.IsChecked = $false
-    }
-    progCounter
-    If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
-        Update-Gui
-        $status.Content = " Preparing to install applications... "
-        Update-Gui
-        ChocoInstall
-    }
-    progCounter
-    If ($Chrome.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing Google Chrome... "
-        Update-Gui
-        choco install googlechrome -y
-        #$Chrome.IsChecked = $false
-    }
-    progCounter
-    If ($Firefox.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing Firefox... "
-        Update-Gui
-        choco install firefox -y
-        #$Firefox.IsChecked = $false
-    }
-    progCounter
-    If ($Zoom.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing Zoom... "
-        Update-Gui
-        choco install zoom -y
-        #$Zoom.IsChecked = $false
-    }
-    progCounter
-    If ($Teams.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing Microsoft Teams... "
-        Update-Gui
-        choco install microsoft-teams.install -y
-        #$Teams.IsChecked = $false
-
-    }
-    progCounter
-    If ($WinRAR.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing WinRAR... "
-        Update-Gui
-        choco install WinRAR -y
-       #$WinRAR.IsChecked = $false
-
-    }
-    progCounter
-    If ($_7Zip.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing 7Zip... "
-        Update-Gui
-        choco install 7Zip -y
-        #$_7Zip.IsChecked = $false
-
-    }
-    progCounter
-    If ($VLC.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing VLC... "
-        Update-Gui
-        choco install vlc -y
-        #$VLC.IsChecked = $false
-    }
-    progCounter
-    If ($AnyDesk.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing AnyDesk... "
-        Update-Gui
-        choco install anydesk.install -y
-        #$AnyDesk.IsChecked = $false
-
-    }
-    progCounter
-    If ($Team_Viewer.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing Team Viewer... "
-        Update-Gui
-        choco install teamviewer -y
-        #$Team_Viewer.IsChecked = $false
-    }
-    progCounter
-    If ($ACReader.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing Adobe Acrobat Reader DC... "
-        Update-Gui
-        choco install adobereader -y
-        #$ACReader.IsChecked = $false
-
-    }
-    progCounter
-    If ($PuTTY.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing PuTTY... "
-        Update-Gui
-        choco install putty -y
-        #$PuTTY.IsChecked = $false
-
-    }
-    progCounter
-    If ($FileZilla.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing Filezilla... "
-        Update-Gui
-        choco install filezilla -y
-        #$FileZilla.IsChecked = $false
-
-    }
-    progCounter
-    If ($VSCode.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing Visual Studio Code... "
-        Update-Gui
-        choco install vscode -y
-        #$VSCode.IsChecked = $false
-
-    }
-    progCounter
-    If (Test-Path -Path "$env:ProgramData\Chocolatey") {
-        Update-Gui
-        $status.Content = " Cleaning Up... "
-        Update-Gui
-        ChocoRemove
-    }
-    progCounter
-    If ($HDV.IsChecked -or $TXViewer.IsChecked -or $iNews.IsChecked){
-        $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
-    }
-    If ($HDV.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing HD Viewer... "
-        Update-Gui
-        Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.HDV)`" /q" -wait
-        #$HDV.IsChecked = $false
-    }
-    progCounter
-    If ($TXViewer.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing TX Viewer... "
-        Update-Gui
-        Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q" -Wait
-        #$TXViewer.IsChecked = $false
-    }
-    If ($iNews.IsChecked) {
-        Update-Gui
-        $status.Content = " Installing iNews... "
-        Update-Gui
-        Start-Process -PassThru `"$($location.iNews)`" -NoNewWindow -Wait
-    }
-    progCounter
-    $status.Content = " Setup Complete! "
-    $ProgressPreference = 'Continue'
-})
+        If ($PowerLangSetup.IsChecked) { 
+            Update-Gui
+            $status.Content = "Setting Language, region, and keyboard languages... "
+            PowerLangSetup
+            #$PowerLangSetup.IsChecked = $false
+        }
+        progCounter
+        If ($PowerNetSetup.IsChecked) { 
+            Update-Gui
+            $status.Content = "Enabling firewall rule for Remote Desktop ... "
+            PowerNetSetup
+            #$PowerNetSetup.IsChecked = $false
+        }
+        progCounter
+        If ($PowerProxySetup.IsChecked) {
+            Update-Gui
+            $status.Content = "Disabling proxy... "
+            PowerProxySetup
+            #$PowerProxySetup.IsChecked = $false
+        }
+        If ($PowerTimeSetup.IsChecked) {
+            Update-Gui
+            $status.Content = "Setting time and timezone... "
+            PowerTimeSetup
+            #$PowerTimeSetup.IsChecked = $false
+        }
+        progCounter
+        If ($PowerExplorerSetup.IsChecked ) {
+            Update-Gui
+            $status.Content = "Setting Windows Explorer and Taskbar settings... "
+            PowerExplorerSetup
+            #$PowerExplorerSetup.IsChecked = $false
+        }
+        progCounter
+        If ($PowerPlanSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
+            Update-Gui
+            $status.Content = "Setting active power plan to High Performance... "
+            PowerPlanSetup
+            #$PowerPlanSetup.IsChecked = $false
+        }
+        progCounter
+        If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
+            Update-Gui
+            $status.Content = "Turning off display timer... "
+            PowerDisplayTimer
+            #$PowerDisplayTimer.IsChecked = $false
+        }
+        progCounter
+        If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
+            Update-Gui
+            $status.Content = "Turning off computer sleep timer... "
+            PowerComputerTimer
+            #$PowerComputerTimer.IsChecked = $false
+        }
+        progCounter
+        If ($PowerAppRemove.IsChecked) {
+            Update-Gui
+            $status.Content = "Removing Windows Store apps... "
+            PowerAppRemove
+            #$PowerAppRemove.IsChecked = $false
+        }
+        progCounter
+        If ($Chrome.IsChecked -or $Firefox.IsChecked -or $Zoom.IsChecked -or $Teams.IsChecked -or $WinRAR.IsChecked -or $_7Zip.IsChecked -or $VLC.IsChecked -or $AnyDesk.IsChecked -or $Team_Viewer.IsChecked -or $ACReader.IsChecked -or $PuTTY.IsChecked -or $FileZilla.IsChecked -or $VSCode.IsChecked) {
+            Update-Gui
+            $status.Content = " Preparing to install applications... "
+            Update-Gui
+            ChocoInstall
+        }
+        progCounter
+        If ($Chrome.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing Google Chrome... "
+            Update-Gui
+            choco install googlechrome -y
+            #$Chrome.IsChecked = $false
+        }
+        progCounter
+        If ($Firefox.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing Firefox... "
+            Update-Gui
+            choco install firefox -y
+            #$Firefox.IsChecked = $false
+        }
+        progCounter
+        If ($Zoom.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing Zoom... "
+            Update-Gui
+            choco install zoom -y
+            #$Zoom.IsChecked = $false
+        }
+        progCounter
+        If ($Teams.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing Microsoft Teams... "
+            Update-Gui
+            choco install microsoft-teams.install -y
+            #$Teams.IsChecked = $false
+        }
+        progCounter
+        If ($WinRAR.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing WinRAR... "
+            Update-Gui
+            choco install WinRAR -y
+            #$WinRAR.IsChecked = $false
+        }
+        progCounter
+        If ($_7Zip.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing 7Zip... "
+            Update-Gui
+            choco install 7Zip -y
+            #$_7Zip.IsChecked = $false
+        }
+        progCounter
+        If ($VLC.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing VLC... "
+            Update-Gui
+            choco install vlc -y
+            #$VLC.IsChecked = $false
+        }
+        progCounter
+        If ($AnyDesk.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing AnyDesk... "
+            Update-Gui
+            choco install anydesk.install -y
+            #$AnyDesk.IsChecked = $false
+        }
+        progCounter
+        If ($Team_Viewer.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing Team Viewer... "
+            Update-Gui
+            choco install teamviewer -y
+            #$Team_Viewer.IsChecked = $false
+        }
+        progCounter
+        If ($ACReader.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing Adobe Acrobat Reader DC... "
+            Update-Gui
+            choco install adobereader -y
+            #$ACReader.IsChecked = $false
+        }
+        progCounter
+        If ($PuTTY.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing PuTTY... "
+            Update-Gui
+            choco install putty -y
+            #$PuTTY.IsChecked = $false
+        }
+        progCounter
+        If ($FileZilla.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing Filezilla... "
+            Update-Gui
+            choco install filezilla -y
+            #$FileZilla.IsChecked = $false
+        }
+        progCounter
+        If ($VSCode.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing Visual Studio Code... "
+            Update-Gui
+            choco install vscode -y
+            #$VSCode.IsChecked = $false
+        }
+        progCounter
+        If (Test-Path -Path "$env:ProgramData\Chocolatey") {
+            Update-Gui
+            $status.Content = " Cleaning Up... "
+            Update-Gui
+            ChocoRemove
+        }
+        progCounter
+        If ($HDV.IsChecked -or $TXViewer.IsChecked -or $iNews.IsChecked) {
+            $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
+        }
+        If ($HDV.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing HD Viewer... "
+            Update-Gui
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.HDV)`" /q" -Wait
+            #$HDV.IsChecked = $false
+        }
+        progCounter
+        If ($TXViewer.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing TX Viewer... "
+            Update-Gui
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q" -Wait
+            #$TXViewer.IsChecked = $false
+        }
+        If ($iNews.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing iNews... "
+            Update-Gui
+            Start-Process -PassThru `"$($location.iNews)`" -NoNewWindow -Wait
+        }
+        progCounter
+        $status.Content = " Setup Complete! "
+        $ProgressPreference = 'Continue'
+    })
 Function Update-Gui() {
     #$Window.Dispatcher.Invoke([Action] {}, [Windows.Threading.DispatcherPriority]::ContextIdle);
-    $Window.Dispatcher.Invoke([Windows.Threading.DispatcherPriority]::Background, [action]{})
+    $Window.Dispatcher.Invoke([Windows.Threading.DispatcherPriority]::Background, [action] {})
 }
 $Window.Add_ContentRendered({    
-    Update-Gui   
-})
+        Update-Gui   
+    })
 $window.ShowDialog() | Out-Null
