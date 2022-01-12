@@ -56,7 +56,7 @@ Add-Type -AssemblyName PresentationFramework
         <CheckBox x:Name="PowerLangSetup" Content="Set Language, Region and Keyboard" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,40,0,0" Height="15" Width="214" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerNetSetup" Content="Enable firewall rule for Remote Desktop" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Height="15" Width="232" Grid.ColumnSpan="2" Margin="0,61,0,0"/>
         <CheckBox x:Name="PowerProxySetup" Content="Disable automatically detecting proxy" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,80,0,0" Height="15" Width="253" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="PowerTimeSetup" Content="Set time and timezone automatically" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0" Height="15" Width="214" IsChecked="False" Grid.ColumnSpan="2"/>
+        <CheckBox x:Name="PowerTimeSetup" Content="Set time and timezone" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Margin="0,100,0,0" Height="15" Width="144" IsChecked="False" Grid.ColumnSpan="2"/>
 
         <CheckBox x:Name="PowerPlanSetup" Content="Set High Perfomance power plan" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Height="15" Width="197" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerDisplayTimer" Content="Disable turn off display timer" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" IsChecked="False" Margin="0,20,0,0" Height="15" Width="175" Grid.ColumnSpan="2"/>
@@ -104,7 +104,8 @@ Add-Type -AssemblyName PresentationFramework
             <TabItem x:Name="LocalTab" Header="Local" Visibility="Collapsed">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="HDV" Content="HDV" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="44"/>
-                    <CheckBox x:Name="TXViewer" Content="TXViewer" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="73"/>
+                    <CheckBox x:Name="TXViewer" Content="TXViewer" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="70"/>
+                    <CheckBox x:Name="iNews" Content="iNews" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="147,10,0,0" Height="15" Width="52"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -133,10 +134,8 @@ function PowerProxySetup {
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" AutoDetect 0
 }
 function PowerTimeSetup {
-    #Set time automatically
-    Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters Type NTP
-    #Set timezone automatically 
-    Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate Start 3
+    #Set timezone to Athens 
+    Set-TimeZone "GTB Standard Time"
 }
 function PowerExplorerSetup {
     $WinExpPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer"
@@ -445,6 +444,7 @@ function DisableWpf {
     $VSCode.IsEnabled= $false
     $HDV.IsEnabled= $false
     $TXViewer.IsEnabled= $false
+    $iNews.IsEnabled= $false
     $RunButton.IsEnabled= $false
     $DomainButton.IsEnabled= $false
     $AdminButton.IsEnabled= $false
@@ -491,6 +491,7 @@ $VSCode = $Window.FindName("VSCode")
 #Local Tab
 $HDV = $Window.FindName("HDV")
 $TXViewer = $Window.FindName("TXViewer")
+$iNews = $Window.FindName("iNews")
 # Progress Bar
 $ProgressBar = $Window.FindName("Progress")
 # Buttons
@@ -755,15 +756,14 @@ $RunButton.Add_Click({
         ChocoRemove
     }
     progCounter
-    If ($HDV.IsChecked -or $TXViewer.IsChecked){
+    If ($HDV.IsChecked -or $TXViewer.IsChecked -or $iNews.IsChecked){
         $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
     }
     If ($HDV.IsChecked) {
         Update-Gui
         $status.Content = " Installing HD Viewer... "
         Update-Gui
-        Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.HDV)`" /q"
-        Start-Sleep -s 5
+        Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.HDV)`" /q" -wait
         #$HDV.IsChecked = $false
     }
     progCounter
@@ -771,9 +771,14 @@ $RunButton.Add_Click({
         Update-Gui
         $status.Content = " Installing TX Viewer... "
         Update-Gui
-        Start-Process -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q"
-        Start-Sleep -s 5
+        Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q" -Wait
         #$TXViewer.IsChecked = $false
+    }
+    If ($iNews.IsChecked) {
+        Update-Gui
+        $status.Content = " Installing iNews... "
+        Update-Gui
+        Start-Process -PassThru `"$($location.iNews)`" -NoNewWindow -Wait
     }
     progCounter
     $status.Content = " Setup Complete! "
@@ -783,7 +788,7 @@ Function Update-Gui() {
     #$Window.Dispatcher.Invoke([Action] {}, [Windows.Threading.DispatcherPriority]::ContextIdle);
     $Window.Dispatcher.Invoke([Windows.Threading.DispatcherPriority]::Background, [action]{})
 }
-$window.ShowDialog() | Out-Null
 $Window.Add_ContentRendered({    
     Update-Gui   
 })
+$window.ShowDialog() | Out-Null
