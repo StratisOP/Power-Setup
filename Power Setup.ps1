@@ -1,7 +1,7 @@
 function Import-Xaml {
     #Import Xaml for MainWindow
     [System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
-    [xml]$xaml = Get-Content -Path "$PSScriptRoot\PowerSetupWPF.xaml"
+    [xml]$xaml = Get-Content -Path "$PSScriptRoot\MainWindowWPF.xaml"
     $manager = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xaml.NameTable
     $manager.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml");
     $xamlReader = (New-Object System.Xml.XmlNodeReader $xaml)
@@ -93,36 +93,7 @@ function PowerExplorerSetup {
     Set-ItemProperty -Path $PolWinExp -Name DisableSearchBoxSuggestions 1
     Stop-Process -processname explorer -ErrorAction SilentlyContinue
     #Set taskbar layout
-    $taskbar = @'
-<LayoutModificationTemplate
-xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification"
-xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout"
-xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout"
-xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout"
-Version="1">
-<DefaultLayoutOverride>
-<StartLayoutCollection>
-<defaultlayout:StartLayout GroupCellWidth="6" xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout">
-<start:Group Name="Windows Server" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout">
-  <start:DesktopApplicationTile Size="2x2" Column="2" Row="2" DesktopApplicationLinkPath="" />
-</start:Group>
-</defaultlayout:StartLayout>
-</StartLayoutCollection>
-</DefaultLayoutOverride>
-<CustomTaskbarLayoutCollection PinListPlacement="Replace">
-<defaultlayout:TaskbarLayout>
- <taskbar:TaskbarPinList>
-    <taskbar:DesktopApp DesktopApplicationLinkPath="%APPDATA%\Microsoft\Windows\Start Menu\Programs\System Tools\File Explorer.lnk" />
-    <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk" /> 
-    <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Firefox.lnk" /> 
-    <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Outlook.lnk" /> 
-    <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Word.lnk" /> 
-    <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Excel.lnk" /> 
-</taskbar:TaskbarPinList>
-</defaultlayout:TaskbarLayout>
-</CustomTaskbarLayoutCollection>
-</LayoutModificationTemplate>
-'@
+    $taskbar = Get-Content -Path "$PSScriptRoot\TaskbarLayout.xml"
     $taskbar | Out-File $env:temp\Layout.xml
     Import-StartLayout -LayoutPath "$env:temp\Layout.xml" -MountPath c:\
     #Stop-Process -processname explorer -ErrorAction SilentlyContinue
