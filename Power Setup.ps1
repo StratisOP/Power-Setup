@@ -394,7 +394,7 @@ $status = $Window.FindName("StatusLBL")
 $LocalTab = $Window.FindName("LocalTab")
 
 #Condition for local installations
-if (Test-Path Power` Setup.json) {
+if (Test-Path PowerSetup.json) {
     $LocalTab.Visibility = "Visible"
 }
 # Hide Progress Prompts
@@ -625,7 +625,7 @@ $RunButton.Add_Click({
         }
         progCounter
         If ($HDV.IsChecked -or $TXViewer.IsChecked -or $iNews.IsChecked) {
-            $location = Get-Content -Path Power` Setup.json | ConvertFrom-Json
+            $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
         }
         If ($HDV.IsChecked) {
             Update-Gui
