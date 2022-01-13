@@ -34,7 +34,6 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet
 Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\W32Time\Parameters Type NTP
 #Set timezone automatically 
 Set-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\tzautoupdate Start 3
-
 #Show Frequent files
 Set-ItemProperty -Path $WinExpPath ShowFrequent 0
 #Show Recent files

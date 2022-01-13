@@ -18,7 +18,6 @@ $programs.AddRange(@(
 foreach ($program in $programs) {
     choco install $program -y
 }
-
 #Uninstall Chocolatey
 Remove-Item -Recurse -Force "$env:ChocolateyInstall"
 [System.Text.RegularExpressions.Regex]::Replace([Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Environment').GetValue('PATH', '', [Microsoft.Win32.RegistryValueOptions]::DoNotExpandEnvironmentNames).ToString(), [System.Text.RegularExpressions.Regex]::Escape("$env:ChocolateyInstall\bin") + '(?>;)?', '', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) | ForEach-Object { [System.Environment]::SetEnvironmentVariable('PATH', $_, 'User') }

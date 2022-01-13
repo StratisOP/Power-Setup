@@ -656,7 +656,7 @@ Function Update-Gui() {
     #$Window.Dispatcher.Invoke([Action] {}, [Windows.Threading.DispatcherPriority]::ContextIdle);
     $Window.Dispatcher.Invoke([Windows.Threading.DispatcherPriority]::Background, [action] {})
 }
-$Window.Add_ContentRendered({    
-        Update-Gui   
+$Window.Add_ContentRendered({
+        Update-Gui
     })
 $window.ShowDialog() | Out-Null

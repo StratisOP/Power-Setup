@@ -1,2 +1,8 @@
 PowerSetup.json
 package.psd1
+PowerAppRemove.ps1
+PowerChocoSetup.ps1
+PowerExplorerSetup.ps1
+PowerLangSetup.ps1
+PowerNetSetup.ps1
+PowerPlanSetup.ps1
