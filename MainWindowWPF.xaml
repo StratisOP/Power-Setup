@@ -74,11 +74,12 @@
                     <CheckBox x:Name="HDV" Content="HDV" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="44"/>
                     <CheckBox x:Name="TXViewer" Content="TXViewer" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="70"/>
                     <CheckBox x:Name="iNews" Content="iNews" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="147,10,0,0" Height="15" Width="52"/>
+                    <CheckBox x:Name="FortiClient" Content="FortiClient VPN" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="272,10,0,0" Height="15" Width="100"/>
                 </Grid>
             </TabItem>
         </TabControl>
         <Button x:Name="RunButton" Content="Run..." HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="38" Width="86" FontSize="14" IsDefault="True" IsEnabled="True" Grid.ColumnSpan="2" Grid.Column="1" Visibility="Visible"/>
-        <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="25"/>
+        <ProgressBar x:Name="Progress" HorizontalAlignment="Center" Height="33" VerticalAlignment="Center" Width="548" Grid.Row="2" Grid.ColumnSpan="4" Value="0" IsEnabled="False" Visibility="Collapsed" Minimum="1" Maximum="28"/>
         <Label x:Name="StatusLBL" Content="Starting..." HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="500" Height="33" Margin="24,11,0,0" Grid.Row="2" Visibility="Collapsed"/>
     </Grid>
 </Window>

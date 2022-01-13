@@ -303,6 +303,7 @@ function DisableWpf {
     $HDV.IsEnabled = $false
     $TXViewer.IsEnabled = $false
     $iNews.IsEnabled = $false
+    $FortiClient.IsEnabled = $false
     $RunButton.IsEnabled = $false
     $DomainButton.IsEnabled = $false
     $AdminButton.IsEnabled = $false
@@ -351,6 +352,8 @@ $HDV = $Window.FindName("HDV")
 $TXViewer = $Window.FindName("TXViewer")
 
 $iNews = $Window.FindName("iNews")
+
+$FortiClient = $Window.FindName("FortiClient")
 # Progress Bar
 $ProgressBar = $Window.FindName("Progress")
 # Buttons
@@ -595,7 +598,7 @@ $RunButton.Add_Click({
             ChocoRemove
         }
         progCounter
-        If ($HDV.IsChecked -or $TXViewer.IsChecked -or $iNews.IsChecked) {
+        If ($HDV.IsChecked -or $TXViewer.IsChecked -or $iNews.IsChecked -or $FortiClient.IsChecked) {
             $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
         }
         If ($HDV.IsChecked) {
@@ -613,11 +616,20 @@ $RunButton.Add_Click({
             Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q" -Wait
             #$TXViewer.IsChecked = $false
         }
+        progCounter
         If ($iNews.IsChecked) {
             Update-Gui
             $status.Content = " Installing iNews... "
             Update-Gui
             Start-Process -PassThru `"$($location.iNews)`" -NoNewWindow -Wait
+        }
+        progCounter
+        If ($FortiClient.IsChecked) {
+            Update-Gui
+            $status.Content = " Installing FortiClient VPN... "
+            Update-Gui
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.FortiClient)`" REBOOT=ReallySuppress /q" -Wait
+            #$FortiClient.IsChecked = $false
         }
         progCounter
         $status.Content = " Setup Complete! "
