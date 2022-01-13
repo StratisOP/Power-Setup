@@ -8,7 +8,6 @@
             <RowDefinition Height="60*" />
             <RowDefinition Height="25*"/>
         </Grid.RowDefinitions>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150*" />
             <ColumnDefinition Width="150*"/>
@@ -37,7 +36,6 @@
         </Button>
         <Button x:Name="DomainButton" Content="Add to Domain..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="2" Visibility="Collapsed" />
         <Button x:Name="AdminButton" Content="Set Admin Account..." HorizontalAlignment="Left" Margin="0,-37,0,0" VerticalAlignment="Top" Width="130" Height="27" Grid.Column="3" Visibility="Collapsed"/>
-
         <CheckBox x:Name="PowerExplorerSetup" Content="Setup Explorer and Taskbar" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Height="15" Width="166" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerAppRemove" Content="Remove Built in Windows apps" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,20,0,0" Height="15" Width="187" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="PowerLangSetup" Content="Set Language, Region and Keyboard" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" IsChecked="False" Margin="0,40,0,0" Height="15" Width="214" Grid.ColumnSpan="2"/>
