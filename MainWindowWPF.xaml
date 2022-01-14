@@ -48,7 +48,7 @@
         <CheckBox x:Name="Option4" Content="Option4" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" Margin="0,60,0,0" Height="15" Width="67" Visibility="Collapsed"/>
         <CheckBox x:Name="Option5" Content="Option5" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" Margin="0,80,0,0" Height="15" Width="67" Visibility="Collapsed"/>
         <CheckBox x:Name="Option6" Content="Option6" HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Grid.Column="2" Margin="0,100,0,0" Height="15" Width="67" Visibility="Collapsed"/>
-        <TabControl x:Name="ApplicationSetup" Grid.ColumnSpan="4" Margin="0,126,0,10" Grid.RowSpan="2">
+        <TabControl x:Name="ApplicationSetup" Grid.ColumnSpan="4" Margin="0,126,0,10" Grid.RowSpan="2" SelectedIndex = "0">
             <TabItem x:Name="OnlineTab" Header="Online" Visibility="Visible">
                 <Grid Background="#FFE5E5E5">
                     <CheckBox x:Name="Chrome" Content="Chrome" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="64"/>

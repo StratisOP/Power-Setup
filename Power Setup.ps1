@@ -91,12 +91,9 @@ function PowerExplorerSetup {
         New-Item -Path HKCU:\SOFTWARE\Policies\Microsoft\Windows -Name Explorer | Out-Null
     }
     Set-ItemProperty -Path $PolWinExp -Name DisableSearchBoxSuggestions 1
-    Stop-Process -processname explorer -ErrorAction SilentlyContinue
     #Set taskbar layout
-    $taskbar = Get-Content -Path "$PSScriptRoot\TaskbarLayout.xml"
-    $taskbar | Out-File $env:temp\Layout.xml
-    Import-StartLayout -LayoutPath "$env:temp\Layout.xml" -MountPath c:\
-    #Stop-Process -processname explorer -ErrorAction SilentlyContinue
+    Import-StartLayout -LayoutPath "$PSScriptRoot\TaskbarLayout.xml" -MountPath c:\
+    Stop-Process -processname explorer -ErrorAction SilentlyContinue
 }
 function PowerPlanSetup {
     #Sets active power plan to High Performance
@@ -365,6 +362,7 @@ $AppSetup = $Window.FindName("AppSetup")
 # Labels
 $status = $Window.FindName("StatusLBL")
 # Tabs
+$ApplicationSetup = $Window.FindName("ApplicationSetup")
 $LocalTab = $Window.FindName("LocalTab")
 
 #Condition for local installations
@@ -386,6 +384,7 @@ $PowerSettings.Add_Click({
         $PowerAppRemove.IsChecked = (-not $PowerAppRemove.IsChecked)
     })
 $AppSetup.Add_Click({
+        $ApplicationSetup.SelectedIndex = 0
         $Chrome.IsChecked = (-not $Chrome.IsChecked)
         $Firefox.IsChecked = (-not $Firefox.IsChecked)
         $WinRAR.IsChecked = (-not $WinRAR.IsChecked)
@@ -421,6 +420,7 @@ $RunButton.Add_Click({
         If ($PowerLangSetup.IsChecked) { 
             Update-Gui
             $status.Content = "Setting Language, region, and keyboard languages... "
+            Update-Gui
             PowerLangSetup
             #$PowerLangSetup.IsChecked = $false
         }
@@ -428,6 +428,7 @@ $RunButton.Add_Click({
         If ($PowerNetSetup.IsChecked) { 
             Update-Gui
             $status.Content = "Enabling firewall rule for Remote Desktop ... "
+            Update-Gui
             PowerNetSetup
             #$PowerNetSetup.IsChecked = $false
         }
@@ -435,12 +436,14 @@ $RunButton.Add_Click({
         If ($PowerProxySetup.IsChecked) {
             Update-Gui
             $status.Content = "Disabling proxy... "
+            Update-Gui
             PowerProxySetup
             #$PowerProxySetup.IsChecked = $false
         }
         If ($PowerTimeSetup.IsChecked) {
             Update-Gui
             $status.Content = "Setting time and timezone... "
+            Update-Gui
             PowerTimeSetup
             #$PowerTimeSetup.IsChecked = $false
         }
@@ -448,6 +451,7 @@ $RunButton.Add_Click({
         If ($PowerExplorerSetup.IsChecked ) {
             Update-Gui
             $status.Content = "Setting Windows Explorer and Taskbar settings... "
+            Update-Gui
             PowerExplorerSetup
             #$PowerExplorerSetup.IsChecked = $false
         }
@@ -455,6 +459,7 @@ $RunButton.Add_Click({
         If ($PowerPlanSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
             Update-Gui
             $status.Content = "Setting active power plan to High Performance... "
+            Update-Gui
             PowerPlanSetup
             #$PowerPlanSetup.IsChecked = $false
         }
@@ -462,6 +467,7 @@ $RunButton.Add_Click({
         If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
             Update-Gui
             $status.Content = "Turning off display timer... "
+            Update-Gui
             PowerDisplayTimer
             #$PowerDisplayTimer.IsChecked = $false
         }
@@ -469,6 +475,7 @@ $RunButton.Add_Click({
         If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
             Update-Gui
             $status.Content = "Turning off computer sleep timer... "
+            Update-Gui
             PowerComputerTimer
             #$PowerComputerTimer.IsChecked = $false
         }
@@ -476,6 +483,7 @@ $RunButton.Add_Click({
         If ($PowerAppRemove.IsChecked) {
             Update-Gui
             $status.Content = "Removing Windows Store apps... "
+            Update-Gui
             PowerAppRemove
             #$PowerAppRemove.IsChecked = $false
         }
