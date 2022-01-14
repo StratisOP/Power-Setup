@@ -412,7 +412,6 @@ if (Test-Path PowerSetup.json) {
 }
 # Hide Progress Prompts
 $ProgressPreference = 'SilentlyContinue'
-. "$PSScriptRoot\TaskbarLayout.xml"
 # Click Actions
 $PowerSettings.Add_Click({
         $PowerLangSetup.IsChecked = (-not $PowerLangSetup.IsChecked)
