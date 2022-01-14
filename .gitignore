@@ -7,3 +7,8 @@ PowerLangSetup.ps1
 PowerNetSetup.ps1
 PowerPlanSetup.ps1
 PowerSetupC.ps1
+Power Setup.exe
+Microsoft.PowerShell.ConsoleHost.dll
+Power Setup.exe.config
+Power Setup.pdb
+System.Management.Automation.dll
