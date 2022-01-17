@@ -13,3 +13,5 @@ Microsoft.PowerShell.ConsoleHost.dll
 Power Setup.exe.config
 Power Setup.pdb
 System.Management.Automation.dll
+AdminDomainSetup.ps1
+AdminDomainWPF.xaml
