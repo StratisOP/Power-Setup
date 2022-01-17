@@ -7,6 +7,15 @@ function Import-Xaml {
     $xamlReader = (New-Object System.Xml.XmlNodeReader $xaml)
     [Windows.Markup.XamlReader]::Load($xamlReader)
 }
+function Import-Xaml1 {
+    #Import Xaml for Admin/Domain
+    [System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
+    [xml]$xaml1 = Get-Content -Path "$PSScriptRoot\AdminDomainWPF.xaml"
+    $manager = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xaml1.NameTable
+    $manager.AddNamespace("x", "http://schemas.microsoft.com/winfx/2006/xaml");
+    $xaml1reader = (New-Object System.Xml.XmlNodeReader $xaml1)
+    [Windows.Markup.XamlReader]::Load($xaml1reader)
+}
 function PowerLangSetup {
     #Set Language, region, and keyboard languages
     Set-Culture en-US
@@ -91,8 +100,8 @@ function PowerExplorerSetup {
         New-Item -Path HKCU:\SOFTWARE\Policies\Microsoft\Windows -Name Explorer | Out-Null
     }
     Set-ItemProperty -Path $PolWinExp -Name DisableSearchBoxSuggestions 1
-#Set taskbar layout
-$taskbar = @'
+    #Set taskbar layout
+    $taskbar = @'
 <LayoutModificationTemplate
     xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification"
     xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout"
@@ -132,9 +141,9 @@ $taskbar = @'
   </CustomTaskbarLayoutCollection>
 </LayoutModificationTemplate>
 '@
-$taskbar | Out-File "$env:LOCALAPPDATA\Microsoft\Windows\Shell\LayoutModification.xml"
-Import-StartLayout -LayoutPath "$env:LOCALAPPDATA\Microsoft\Windows\Shell\LayoutModification.xml" -MountPath c:\
-Stop-Process -processname explorer -ErrorAction SilentlyContinue
+    $taskbar | Out-File "$env:LOCALAPPDATA\Microsoft\Windows\Shell\LayoutModification.xml"
+    Import-StartLayout -LayoutPath "$env:LOCALAPPDATA\Microsoft\Windows\Shell\LayoutModification.xml" -MountPath c:\
+    Stop-Process -processname explorer -ErrorAction SilentlyContinue
 }
 function PowerPlanSetup {
     #Sets active power plan to High Performance
@@ -396,10 +405,9 @@ $FortiClient = $Window.FindName("FortiClient")
 $ProgressBar = $Window.FindName("Progress")
 # Buttons
 $RunButton = $Window.FindName("RunButton")
-$DomainButton = $Window.FindName("DomainButton")
-$AdminButton = $Window.FindName("AdminButton")
 $PowerSettings = $Window.FindName("PowerSettings")
 $AppSetup = $Window.FindName("AppSetup")
+$AdminDomainSetup = $Window.FindName("AdminDomainSetup")
 # Labels
 $status = $Window.FindName("StatusLBL")
 # Tabs
@@ -431,22 +439,9 @@ $AppSetup.Add_Click({
         $WinRAR.IsChecked = (-not $WinRAR.IsChecked)
         $VLC.IsChecked = (-not $VLC.IsChecked)
     })
-$DomainButton.Add_Click({ 
-        $Serial = Get-WmiObject -Class "Win32_BIOS" | Select-Object -Expand SerialNumber
-        $NewComputerName = (Read-Host -Prompt "Set Computer Name (with serial number: $Serial)") 
-        $domain = (Read-Host -Prompt "        Enter domain name") 
-        #$username = "USERNAME"
-        #$password = "PASSWORD" | ConvertTo-SecureString -AsPlainText -Force
-        #$Credential = New-Object System.Management.Automation.PSCredential($username,$password)
-        Rename-Computer -NewName $NewComputerName 
-        Add-Computer -DomainName $domain -Credential $domain\ -Options JoinWithNewName -Force
-    })
-$AdminButton.Add_Click({
-        Update-Gui
-        $Password = (Read-Host -Prompt "Set password for the Administrator account" -AsSecureString)
-        $UserAccount = Get-LocalUser -Name "Administrator"
-        $UserAccount | Set-LocalUser -Password $Password
-        C:\WINDOWS\system32\net.exe user administrator /active:yes
+    
+$AdminDomainSetup.Add_Click({
+& .\AdminDomainSetup.ps1
     })
 $RunButton.Add_Click({
         Update-Gui
