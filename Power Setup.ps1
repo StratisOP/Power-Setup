@@ -1,3 +1,4 @@
+[System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '')]param()
 function Import-Xaml {
     #Import Xaml for MainWindow
     [System.Reflection.Assembly]::LoadWithPartialName("PresentationFramework") | Out-Null
@@ -100,49 +101,6 @@ function PowerExplorerSetup {
         New-Item -Path HKCU:\SOFTWARE\Policies\Microsoft\Windows -Name Explorer | Out-Null
     }
     Set-ItemProperty -Path $PolWinExp -Name DisableSearchBoxSuggestions 1
-    #Set taskbar layout
-    $taskbar = @'
-<LayoutModificationTemplate
-    xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification"
-    xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout"
-    xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout"
-    xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout"
-    Version="1">
-  <DefaultLayoutOverride>
-    <StartLayoutCollection>
-      <defaultlayout:StartLayout GroupCellWidth="6" xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout">
-        <start:Group Name="Web Browsers" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout">
-          <start:DesktopApplicationTile Size="2x2" Column="0" Row="0" DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Accessories\Internet Explorer.lnk" />
-          <start:Tile Size="2x2" Column="4" Row="0" AppUserModelID="Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge" />
-          <start:DesktopApplicationTile Size="2x2" Column="2" Row="0" DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk" />
-		</start:Group>
-        <start:Group Name="Microsoft Office" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout">
-          <start:DesktopApplicationTile Size="2x2" Column="2" Row="0" DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Word.lnk" />
-          <start:DesktopApplicationTile Size="2x2" Column="4" Row="2" DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Publisher.lnk" />
-          <start:DesktopApplicationTile Size="2x2" Column="0" Row="2" DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\PowerPoint.lnk" />
-          <start:DesktopApplicationTile Size="2x2" Column="0" Row="0" DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Outlook.lnk" />
-          <start:DesktopApplicationTile Size="2x2" Column="4" Row="0" DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Excel.lnk" />
-          <start:DesktopApplicationTile Size="2x2" Column="2" Row="2" DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Access.lnk" />
-        </start:Group>        
-      </defaultlayout:StartLayout>
-    </StartLayoutCollection>
-  </DefaultLayoutOverride>
-    <CustomTaskbarLayoutCollection PinListPlacement="Replace">
- 	<defaultlayout:TaskbarLayout>
-         <taskbar:TaskbarPinList xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout">
-			<taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Google Chrome.lnk" />
-            <taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Firefox.lnk" />
-            <taskbar:DesktopApp DesktopApplicationLinkPath="%APPDATA%\Microsoft\Windows\Start Menu\Programs\System Tools\File Explorer.lnk" />
-			<taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Outlook.lnk" />
-			<taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Word.lnk" />
-			<taskbar:DesktopApp DesktopApplicationLinkPath="%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Excel.lnk" /> 
-		</taskbar:TaskbarPinList>
-	</defaultlayout:TaskbarLayout>
-  </CustomTaskbarLayoutCollection>
-</LayoutModificationTemplate>
-'@
-    $taskbar | Out-File "$env:LOCALAPPDATA\Microsoft\Windows\Shell\LayoutModification.xml"
-    Import-StartLayout -LayoutPath "$env:LOCALAPPDATA\Microsoft\Windows\Shell\LayoutModification.xml" -MountPath c:\
     Stop-Process -processname explorer -ErrorAction SilentlyContinue
 }
 function PowerPlanSetup {
@@ -352,8 +310,6 @@ function DisableWpf {
     $iNews.IsEnabled = $false
     $FortiClient.IsEnabled = $false
     $RunButton.IsEnabled = $false
-    $DomainButton.IsEnabled = $false
-    $AdminButton.IsEnabled = $false
     $PowerSettings.IsEnabled = $false
     $AppSetup.IsEnabled = $false
 }
@@ -414,12 +370,14 @@ $status = $Window.FindName("StatusLBL")
 $ApplicationSetup = $Window.FindName("ApplicationSetup")
 $LocalTab = $Window.FindName("LocalTab")
 
-#Condition for local installations
+#Config exists conditions
 if (Test-Path PowerSetup.json) {
     $LocalTab.Visibility = "Visible"
 }
 # Hide Progress Prompts
 $ProgressPreference = 'SilentlyContinue'
+#Read config file
+$config = Get-Content -Path "$PSScriptRoot\PowerSetup.json" | ConvertFrom-Json
 # Click Actions
 $PowerSettings.Add_Click({
         $PowerLangSetup.IsChecked = (-not $PowerLangSetup.IsChecked)
@@ -441,7 +399,154 @@ $AppSetup.Add_Click({
     })
     
 $AdminDomainSetup.Add_Click({
-& .\AdminDomainSetup.ps1
+        #Build the GUI
+        $window1 = Import-Xaml1
+        # XAML objects
+        # Status Labels
+        $DomainStatus = $window1.FindName("DomainStatus")
+        $SerialStatus = $window1.FindName("SerialStatus")
+        $PCNameStatus = $window1.FindName("PCNameStatus")
+        $AdminStatus = $window1.FindName("AdminStatus")
+        $HelpdeskStatus = $window1.FindName("HelpdeskStatus")
+        # Setup buttons
+        $SetAdmin = $window1.FindName("SetAdmin")
+        $SetName = $window1.FindName("SetName")
+        $SetHelpdesk = $window1.FindName("SetHelpdesk")
+        $SetDomain = $window1.FindName("SetDomain")
+    
+        Import-Module Microsoft.Powershell.LocalAccounts 
+    
+        # Domain Status
+        if ((Get-WmiObject win32_computersystem).partofdomain -eq $true) {
+            $DomainStatus.Content = "$env:USERDNSDomain"
+            $SetDomain.IsEnabled = $false
+            $SetHelpdesk.IsEnabled = $true
+        }
+        else {
+            $DomainStatus.Content = "WORKGROUP"
+            $SetDomain.IsEnabled = $true
+            $SetHelpdesk.IsEnabled = $false
+        }
+        # Serial Status
+        $SerialStatus.Content = (Get-WmiObject win32_bios).serialnumber
+        $SerialStatus.ToolTip = (Get-WmiObject win32_bios).serialnumber
+        # Computer Name Status
+        $PCNameStatus.Content = $env:computername
+        $PCNameStatus.ToolTip = $env:computername
+        # Find Computer Manufacturer
+        $OEM = (Get-WmiObject win32_bios).manufacturer
+        if ($OEM -eq "HP" -or $OEM -eq "Hewlett-Packard" ) {
+            $vendor = "HP-"
+        }
+        elseif ($OEM -eq "Dell Inc.") {
+            $vendor = "D-"
+        }
+        else {
+            $vendor = ""
+        }
+        if ("$vendor$($SerialStatus.Content)" -eq $PCNameStatus.Content) {
+            $SetName.IsEnabled = $false
+        }
+        # Admin Account Status
+        $Admin = Get-LocalUser -Name Administrator
+        if ($Admin.Enabled -eq $true) {
+            $AdminStatus.Content = "True"
+            $SetAdmin.IsEnabled = $false
+        }
+        else {
+            $AdminStatus.Content = "False"
+            $SetAdmin.IsEnabled = $true
+        }
+        # HelpdeskStatus Status
+        $Admins = Get-LocalGroupMember -Name Administrators | Select-Object -ExpandProperty name
+        if ($Admins -Contains "$($config.domain)\helpdesk") {
+            $HelpdeskStatus.Content = "True"
+            $SetHelpdesk.IsEnabled = $false
+        } 
+        else {
+            $HelpdeskStatus.Content = "False"
+        }
+        $newName = "$vendor$($SerialStatus.Content)"
+        # Enable Admin Account
+        $SetAdmin.Add_Click({
+                [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing") 
+                [void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") 
+                $objForm = New-Object Windows.Forms.Form -Property @{
+                    StartPosition   = [Windows.Forms.FormStartPosition]::CenterScreen
+                    FormBorderStyle = 'FixedDialog'
+                    MaximizeBox     = $false
+                    MinimizeBox     = $false
+                    Size            = New-Object Drawing.Size 307, 142
+                    Text            = "Set Password"
+                    Topmost         = $True
+                    KeyPreview      = $True
+                }
+                $objForm.Add_KeyDown({ if ($_.KeyCode -eq "Enter") 
+                        { $x = $objTextBox.Text; $objForm.Close() } })
+                $objForm.Add_KeyDown({ if ($_.KeyCode -eq "Escape") 
+                        { $objForm.Close() } })
+                $OKButton = New-Object Windows.Forms.Button -Property @{
+                    Location     = New-Object Drawing.Point 75, 70
+                    Size         = New-Object Drawing.Size 75, 23
+                    Text         = 'OK'
+                    Enabled      = $true
+                    DialogResult = [Windows.Forms.DialogResult]::OK
+                }
+                $OKButton.Add_Click({ $x = $objTextBox.Text; $objForm.Close() })
+                $objForm.Controls.Add($OKButton)
+
+                $cancelButton = New-Object Windows.Forms.Button -Property @{
+                    Location     = New-Object Drawing.Point 150, 70
+                    Size         = New-Object Drawing.Size 75, 23
+                    Text         = 'Cancel'
+                    DialogResult = [Windows.Forms.DialogResult]::Cancel
+                }
+                $CancelButton.Add_Click({ $objForm.Close() })
+                $objForm.Controls.Add($CancelButton)
+
+                $objLabel = New-Object System.Windows.Forms.Label -Property @{
+                    Text     = "Please enter a password for the administrator account: "
+                    Location = New-Object Drawing.Point 9, 20 
+                    Size     = New-Object Drawing.Size 280, 20
+                }
+                $objForm.Controls.Add($objLabel)
+                $MaskedTextBox = New-Object System.Windows.Forms.MaskedTextBox -Property @{
+                    PasswordChar = '*'
+                    Location     = New-Object Drawing.Point 10, 40
+                    Size         = New-Object Drawing.Size 270, 20
+                }
+                $objForm.Controls.Add($MaskedTextBox) 
+                $objForm.Add_Shown({ $objForm.Activate() })
+                $result = $objForm.ShowDialog()
+                if ($result -eq [Windows.Forms.DialogResult]::OK) {
+                    C:\WINDOWS\system32\net.exe user administrator $MaskedTextBox.Text
+                    C:\WINDOWS\system32\net.exe user administrator /active:yes
+                    $SetAdmin.IsEnabled = $false
+                    $AdminStatus.Content = "True"
+                }
+            })
+        # Set Computer name
+        $SetName.Add_Click({
+                Rename-Computer -NewName $newName -Force
+                $SetName.IsEnabled = $false
+            })
+        # Add to domain
+        $SetDomain.Add_Click({
+                Add-Computer -DomainName $config.Domain -Options JoinWithNewName -Force
+                if ((Get-WmiObject win32_computersystem).partofdomain -eq $true) {
+                    $SetDomain.IsEnabled = $false
+                    $SetHelpdesk.IsEnabled = $true
+                }
+            })
+        # Add Helpdesk to Administrators group
+        $SetHelpdesk.Add_Click({
+                Add-LocalGroupMember -Group Administrators -Member $env:USERDOMAIN\helpdesk
+                $SetHelpdesk.IsEnabled = $false
+            })
+        $window1.Add_ContentRendered({
+                Update-Gui
+            })
+        $window1.ShowDialog() | Out-Null
     })
 $RunButton.Add_Click({
         Update-Gui
@@ -642,14 +747,11 @@ $RunButton.Add_Click({
             ChocoRemove
         }
         progCounter
-        If ($HDV.IsChecked -or $TXViewer.IsChecked -or $iNews.IsChecked -or $FortiClient.IsChecked) {
-            $location = Get-Content -Path PowerSetup.json | ConvertFrom-Json
-        }
         If ($HDV.IsChecked) {
             Update-Gui
             $status.Content = " Installing HD Viewer... "
             Update-Gui
-            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.HDV)`" /q" -Wait
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($config.HDV)`" /q" -Wait
             #$HDV.IsChecked = $false
         }
         progCounter
@@ -657,7 +759,7 @@ $RunButton.Add_Click({
             Update-Gui
             $status.Content = " Installing TX Viewer... "
             Update-Gui
-            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.TXViewer)`" /q" -Wait
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($config.TXViewer)`" /q" -Wait
             #$TXViewer.IsChecked = $false
         }
         progCounter
@@ -665,14 +767,14 @@ $RunButton.Add_Click({
             Update-Gui
             $status.Content = " Installing iNews... "
             Update-Gui
-            Start-Process -PassThru `"$($location.iNews)`" -NoNewWindow -Wait
+            Start-Process -PassThru `"$($config.iNews)`" -NoNewWindow -Wait
         }
         progCounter
         If ($FortiClient.IsChecked) {
             Update-Gui
             $status.Content = " Installing FortiClient VPN... "
             Update-Gui
-            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($location.FortiClient)`" REBOOT=ReallySuppress /q" -Wait
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($config.FortiClient)`" REBOOT=ReallySuppress /q" -Wait
             #$FortiClient.IsChecked = $false
         }
         progCounter
