@@ -57,11 +57,11 @@
                     <CheckBox x:Name="WinRAR" Content="WinRAR" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="147,10,0,0" Height="15" Width="62"/>
                     <CheckBox x:Name="_7Zip" Content="7zip" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="147,31,0,0" Height="15" Width="43" />
                     <CheckBox x:Name="VLC" Content="VLC" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="147,51,0,0" Height="15" Width="43" IsChecked="False"/>
-                    <CheckBox Content="AppB4" HorizontalAlignment="Right" Margin="0,72,272,0" Height="15" Width="125" VerticalAlignment="Top" Visibility="Hidden" />
+                    <CheckBox x:Name="AppB4" Content="AppB4" HorizontalAlignment="Right" Margin="0,72,272,0" Height="15" Width="125" VerticalAlignment="Top" Visibility="Hidden" />
                     <CheckBox x:Name="AnyDesk" Content="AnyDesk" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="272,10,0,0" Height="15" Width="67"/>
                     <CheckBox x:Name="Team_Viewer" Content="Team Viewer" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="272,31,0,0" Height="15" Width="88"/>
-                    <CheckBox Content="AppC3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="272,51,0,0" Height="15" Width="135" Visibility="Hidden"/>
-                    <CheckBox Content="AppC4" HorizontalAlignment="Left" Margin="272,72,0,0" Height="15" Width="135" VerticalAlignment="Top" Visibility="Hidden"/>
+                    <CheckBox x:Name="AppC3" Content="AppC3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="272,51,0,0" Height="15" Width="135" Visibility="Hidden"/>
+                    <CheckBox x:Name="AppC4" Content="AppC4" HorizontalAlignment="Left" Margin="272,72,0,0" Height="15" Width="135" VerticalAlignment="Top" Visibility="Hidden"/>
                     <CheckBox x:Name="ACReader" Content="Acrobat Reader" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="407,10,0,0" Height="15" Width="125"/>
                     <CheckBox x:Name="PuTTY" Content="PuTTY" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="407,31,0,0" Height="15" Width="53"/>
                     <CheckBox x:Name="FileZilla" Content="FileZilla" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="407,51,0,0" Height="15" Width="63"/>

@@ -327,9 +327,16 @@ $PowerTimeSetup = $Window.FindName("PowerTimeSetup")
 $PowerPlanSetup = $Window.FindName("PowerPlanSetup")
 $PowerDisplayTimer = $Window.FindName("PowerDisplayTimer")
 $PowerComputerTimer = $Window.FindName("PowerComputerTimer")
-#$Option4 = $Window.FindName("Option4")
-#$Option5 = $Window.FindName("Option5")
-#$Option6 = $Window.FindName("Option6")
+# Tooltips
+$PowerPlanSetup.ToolTip = "Setting High Performance as the active power plan"
+$PowerDisplayTimer.ToolTip = "Turning off the display sleep timer"
+$PowerComputerTimer.ToolTip = "Disabling putting computer to sleep"
+$PowerExplorerSetup.ToolTip = "Setting Windows Explorer and Taskbar settings" 
+$PowerAppRemove.ToolTip = "Removing the built-in Windows Store apps"
+$PowerLangSetup.ToolTip = "Setting Language, region, and keyboard languages"
+$PowerNetSetup.ToolTip = "Enabling firewall rule for Remote Desktop" 
+$PowerProxySetup.ToolTip = "Disabling proxy"
+$PowerTimeSetup.ToolTip = "Setting time and timezone"
 # Application Setup Checkboxes
 $Chrome = $Window.FindName("Chrome")
 $Firefox = $Window.FindName("Firefox")
@@ -339,12 +346,9 @@ $Teams = $Window.FindName("Teams")
 $WinRAR = $window.FindName("WinRAR")
 $_7Zip = $Window.FindName("_7Zip")
 $VLC = $Window.FindName("VLC")
-#$AppB4 = $Window.FindName("AppB4")
 
 $AnyDesk = $Window.FindName("AnyDesk")
 $Team_Viewer = $Window.FindName("Team_Viewer")
-#$AppC3 = $Window.FindName("AppC3")
-#$AppC4 = $Window.FindName("AppC4")
 
 $ACReader = $Window.FindName("ACReader")
 $PuTTY = $Window.FindName("PuTTY")
@@ -458,8 +462,9 @@ $AdminDomainSetup.Add_Click({
             $SetAdmin.IsEnabled = $true
         }
         # HelpdeskStatus Status
+
         $Admins = Get-LocalGroupMember -Name Administrators | Select-Object -ExpandProperty name
-        if ($Admins -Contains "$($config.domain)\helpdesk") {
+        if ($Admins -Contains "$($config.DomainShort)\helpdesk") {
             $HelpdeskStatus.Content = "True"
             $SetHelpdesk.IsEnabled = $false
         } 
@@ -560,7 +565,7 @@ $RunButton.Add_Click({
         Update-Gui
         If ($PowerLangSetup.IsChecked) { 
             Update-Gui
-            $status.Content = "Setting Language, region, and keyboard languages... "
+            $status.Content = "$($PowerLangSetup.ToolTip)..."
             Update-Gui
             PowerLangSetup
             #$PowerLangSetup.IsChecked = $false
@@ -568,7 +573,7 @@ $RunButton.Add_Click({
         progCounter
         If ($PowerNetSetup.IsChecked) { 
             Update-Gui
-            $status.Content = "Enabling firewall rule for Remote Desktop ... "
+            $status.Content = "$($PowerNetSetup.ToolTip)..."
             Update-Gui
             PowerNetSetup
             #$PowerNetSetup.IsChecked = $false
@@ -576,14 +581,14 @@ $RunButton.Add_Click({
         progCounter
         If ($PowerProxySetup.IsChecked) {
             Update-Gui
-            $status.Content = "Disabling proxy... "
+            $status.Content = "$($PowerProxySetup.ToolTip)..."
             Update-Gui
             PowerProxySetup
             #$PowerProxySetup.IsChecked = $false
         }
         If ($PowerTimeSetup.IsChecked) {
             Update-Gui
-            $status.Content = "Setting time and timezone... "
+            $status.Content = "$($PowerTimeSetup.ToolTip)..."
             Update-Gui
             PowerTimeSetup
             #$PowerTimeSetup.IsChecked = $false
@@ -591,7 +596,7 @@ $RunButton.Add_Click({
         progCounter
         If ($PowerExplorerSetup.IsChecked ) {
             Update-Gui
-            $status.Content = "Setting Windows Explorer and Taskbar settings... "
+            $status.Content = "$($PowerExplorerSetup.ToolTip)..."
             Update-Gui
             PowerExplorerSetup
             #$PowerExplorerSetup.IsChecked = $false
@@ -599,7 +604,7 @@ $RunButton.Add_Click({
         progCounter
         If ($PowerPlanSetup.IsChecked -and $env:UserName -ne "WDAGUtilityAccount" ) {
             Update-Gui
-            $status.Content = "Setting active power plan to High Performance... "
+            $status.Content = "$($PowerPlanSetup.ToolTip)..."
             Update-Gui
             PowerPlanSetup
             #$PowerPlanSetup.IsChecked = $false
@@ -607,7 +612,7 @@ $RunButton.Add_Click({
         progCounter
         If ($PowerDisplayTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
             Update-Gui
-            $status.Content = "Turning off display timer... "
+            $status.Content = "$($PowerDisplayTimer.ToolTip)..."
             Update-Gui
             PowerDisplayTimer
             #$PowerDisplayTimer.IsChecked = $false
@@ -615,7 +620,7 @@ $RunButton.Add_Click({
         progCounter
         If ($PowerComputerTimer.IsChecked -and $env:UserName -ne "WDAGUtilityAccount") {
             Update-Gui
-            $status.Content = "Turning off computer sleep timer... "
+            $status.Content = "$($PowerComputerTimer.ToolTip)..."
             Update-Gui
             PowerComputerTimer
             #$PowerComputerTimer.IsChecked = $false
@@ -623,7 +628,7 @@ $RunButton.Add_Click({
         progCounter
         If ($PowerAppRemove.IsChecked) {
             Update-Gui
-            $status.Content = "Removing Windows Store apps... "
+            $status.Content = "$($PowerAppRemove.ToolTip)..."
             Update-Gui
             PowerAppRemove
             #$PowerAppRemove.IsChecked = $false
