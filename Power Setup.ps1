@@ -305,10 +305,10 @@ function DisableWpf {
     $PuTTY.IsEnabled = $false
     $FileZilla.IsEnabled = $false
     $VSCode.IsEnabled = $false
-    $HDV.IsEnabled = $false
-    $TXViewer.IsEnabled = $false
-    $iNews.IsEnabled = $false
-    $FortiClient.IsEnabled = $false
+    $LocalAppA1.IsEnabled = $false
+    $LocalAppA2.IsEnabled = $false
+    $LocalAppB1.IsEnabled = $false
+    $LocalAppC1.IsEnabled = $false
     $RunButton.IsEnabled = $false
     $PowerSettings.IsEnabled = $false
     $AppSetup.IsEnabled = $false
@@ -355,12 +355,12 @@ $PuTTY = $Window.FindName("PuTTY")
 $FileZilla = $Window.FindName("FileZilla")
 $VSCode = $Window.FindName("VSCode")
 
-$HDV = $Window.FindName("HDV")
-$TXViewer = $Window.FindName("TXViewer")
+$LocalAppA1 = $Window.FindName("LocalAppA1")
+$LocalAppA2 = $Window.FindName("LocalAppA2")
 
-$iNews = $Window.FindName("iNews")
+$LocalAppB1 = $Window.FindName("LocalAppB1")
 
-$FortiClient = $Window.FindName("FortiClient")
+$LocalAppC1 = $Window.FindName("LocalAppC1")
 # Progress Bar
 $ProgressBar = $Window.FindName("Progress")
 # Buttons
@@ -374,14 +374,18 @@ $status = $Window.FindName("StatusLBL")
 $ApplicationSetup = $Window.FindName("ApplicationSetup")
 $LocalTab = $Window.FindName("LocalTab")
 
-#Config exists conditions
+# Read config file if it exists
 if (Test-Path PowerSetup.json) {
     $LocalTab.Visibility = "Visible"
+    $ps = Get-Content -Path "$PSScriptRoot\PowerSetup.json" | ConvertFrom-Json
+    $LocalAppA1.Content = $ps.app.LocalAppA1.Name
+    $LocalAppA2.Content = $ps.app.LocalAppA2.Name
+    $LocalAppB1.Content = $ps.app.LocalAppB1.Name
+    $LocalAppC1.Content = $ps.app.LocalAppC1.Name
 }
 # Hide Progress Prompts
 $ProgressPreference = 'SilentlyContinue'
-#Read config file
-$config = Get-Content -Path "$PSScriptRoot\PowerSetup.json" | ConvertFrom-Json
+
 # Click Actions
 $PowerSettings.Add_Click({
         $PowerLangSetup.IsChecked = (-not $PowerLangSetup.IsChecked)
@@ -426,6 +430,10 @@ $AdminDomainSetup.Add_Click({
             $SetDomain.IsEnabled = $false
             $SetHelpdesk.IsEnabled = $true
         }
+        elseif (!$ps.app.Domain) {
+            $SetDomain.IsEnabled = $false
+            $SetHelpdesk.IsEnabled = $false
+        }
         else {
             $DomainStatus.Content = "WORKGROUP"
             $SetDomain.IsEnabled = $true
@@ -464,7 +472,7 @@ $AdminDomainSetup.Add_Click({
         # HelpdeskStatus Status
 
         $Admins = Get-LocalGroupMember -Name Administrators | Select-Object -ExpandProperty name
-        if ($Admins -Contains "$($config.DomainShort)\helpdesk") {
+        if ($Admins -Contains "$($ps.config.Domain.Short)\$($ps.config.admin.account)") {
             $HelpdeskStatus.Content = "True"
             $SetHelpdesk.IsEnabled = $false
         } 
@@ -537,7 +545,7 @@ $AdminDomainSetup.Add_Click({
             })
         # Add to domain
         $SetDomain.Add_Click({
-                Add-Computer -DomainName $config.Domain -Options JoinWithNewName -Force
+                Add-Computer -DomainName $ps.config.Domain.full -Options JoinWithNewName -Force
                 if ((Get-WmiObject win32_computersystem).partofdomain -eq $true) {
                     $SetDomain.IsEnabled = $false
                     $SetHelpdesk.IsEnabled = $true
@@ -752,34 +760,34 @@ $RunButton.Add_Click({
             ChocoRemove
         }
         progCounter
-        If ($HDV.IsChecked) {
+        If ($LocalAppA1.IsChecked) {
             Update-Gui
-            $status.Content = " Installing HD Viewer... "
+            $status.Content = " Installing $($ps.app.LocalAppA1.Info)... "
             Update-Gui
-            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($config.HDV)`" /q" -Wait
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($ps.app.LocalAppA1.Path)`" /q" -Wait
             #$HDV.IsChecked = $false
         }
         progCounter
-        If ($TXViewer.IsChecked) {
+        If ($LocalAppA2.IsChecked) {
             Update-Gui
-            $status.Content = " Installing TX Viewer... "
+            $status.Content = " Installing $($ps.app.LocalAppA2.Info)... "
             Update-Gui
-            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($config.TXViewer)`" /q" -Wait
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($ps.app.LocalAppA2.Path)`" /q" -Wait
             #$TXViewer.IsChecked = $false
         }
         progCounter
-        If ($iNews.IsChecked) {
+        If ($LocalAppB1.IsChecked) {
             Update-Gui
-            $status.Content = " Installing iNews... "
+            $status.Content = " Installing $($ps.app.LocalAppB1.Info)... "
             Update-Gui
-            Start-Process -PassThru `"$($config.iNews)`" -NoNewWindow -Wait
+            Start-Process -PassThru `"$($ps.app.LocalAppB1.Path)`" -NoNewWindow -Wait
         }
         progCounter
-        If ($FortiClient.IsChecked) {
+        If ($LocalAppC1.IsChecked) {
             Update-Gui
-            $status.Content = " Installing FortiClient VPN... "
+            $status.Content = " Installing $($ps.app.LocalAppC1.Info)... "
             Update-Gui
-            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($config.FortiClient)`" REBOOT=ReallySuppress /q" -Wait
+            Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($ps.app.LocalAppC1.Path)`" REBOOT=ReallySuppress /q" -Wait
             #$FortiClient.IsChecked = $false
         }
         progCounter

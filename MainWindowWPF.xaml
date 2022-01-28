@@ -70,10 +70,10 @@
             </TabItem>
             <TabItem x:Name="LocalTab" Header="Local" Visibility="Collapsed">
                 <Grid Background="#FFE5E5E5">
-                    <CheckBox x:Name="HDV" Content="HDV" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="44"/>
-                    <CheckBox x:Name="TXViewer" Content="TXViewer" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="70"/>
-                    <CheckBox x:Name="iNews" Content="iNews" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="147,10,0,0" Height="15" Width="52"/>
-                    <CheckBox x:Name="FortiClient" Content="FortiClient VPN" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="272,10,0,0" Height="15" Width="100"/>
+                    <CheckBox x:Name="LocalAppA1" Content="LocalAppA1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,10,0,0" Height="15" Width="44"/>
+                    <CheckBox x:Name="LocalAppA2" Content="LocalAppA2" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="4,31,0,0" Height="15" Width="75"/>
+                    <CheckBox x:Name="LocalAppB1" Content="LocalAppB1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="147,10,0,0" Height="15" Width="52"/>
+                    <CheckBox x:Name="LocalAppC1" Content="LocalAppC1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="False" Margin="272,10,0,0" Height="15" Width="100"/>
                 </Grid>
             </TabItem>
         </TabControl>
