@@ -377,7 +377,7 @@ $LocalTab = $Window.FindName("LocalTab")
 # Read config file if it exists
 if (Test-Path PowerSetup.json) {
     $LocalTab.Visibility = "Visible"
-    $ps = Get-Content -Path "$PSScriptRoot\PowerSetup.json" | ConvertFrom-Json
+    $ps = Get-Content -Path PowerSetup.json | ConvertFrom-Json
     $LocalAppA1.Content = $ps.app.LocalAppA1.Name
     $LocalAppA2.Content = $ps.app.LocalAppA2.Name
     $LocalAppB1.Content = $ps.app.LocalAppB1.Name
