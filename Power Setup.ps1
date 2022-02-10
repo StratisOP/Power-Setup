@@ -58,6 +58,12 @@ function PowerExplorerSetup {
     Set-ItemProperty -Path $WinExpPathAdv LaunchTo 1
     #Disable app start tracking
     Set-ItemProperty -Path $WinExpPathAdv Start_TrackProgs 0
+    #Set Taskbar Alignment to the Left (Win11)
+    Set-ItemProperty -Path $WinExpPathAdv TaskbarAl 0
+    #Hide Widgets (Win11)
+    Set-ItemProperty -Path $WinExpPathAdv TaskbarDa 0
+    #Hide Chats (Win11)
+    Set-ItemProperty -Path $WinExpPathAdv TaskbarMn 0
     #Disable Edge desktop shortcut on new user accounts
     Set-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer DisableEdgeDesktopShortcutCreation 1
     #Disable tips, tricks and suggestions
@@ -171,6 +177,11 @@ function PowerAppRemove {
             "Microsoft.BingSports",
             "Microsoft.BingTranslator",
             "Microsoft.BingWeather",
+            #Win 11
+            "Microsoft.XboxGameCallableUI",
+            "",
+            "",
+            "",
             #HP OEM
             "AD2F1837.HPInc.EnergyStar",
             "AD2F1837.HPAudioCenter ",
