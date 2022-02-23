@@ -776,7 +776,7 @@ $RunButton.Add_Click({
             $status.Content = " Installing $($ps.app.LocalAppA1.Info)... "
             Update-Gui
             Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($ps.app.LocalAppA1.Path)`" /q" -Wait
-            #$HDV.IsChecked = $false
+            #$LocalAppA1.IsChecked = $false
         }
         progCounter
         If ($LocalAppA2.IsChecked) {
@@ -784,7 +784,7 @@ $RunButton.Add_Click({
             $status.Content = " Installing $($ps.app.LocalAppA2.Info)... "
             Update-Gui
             Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($ps.app.LocalAppA2.Path)`" /q" -Wait
-            #$TXViewer.IsChecked = $false
+            #$LocalAppA2.IsChecked = $false
         }
         progCounter
         If ($LocalAppB1.IsChecked) {
@@ -792,6 +792,7 @@ $RunButton.Add_Click({
             $status.Content = " Installing $($ps.app.LocalAppB1.Info)... "
             Update-Gui
             Start-Process -PassThru `"$($ps.app.LocalAppB1.Path)`" -NoNewWindow -Wait
+            #$LocalAppB1.IsChecked = $false
         }
         progCounter
         If ($LocalAppC1.IsChecked) {
@@ -799,7 +800,7 @@ $RunButton.Add_Click({
             $status.Content = " Installing $($ps.app.LocalAppC1.Info)... "
             Update-Gui
             Start-Process -PassThru -FilePath "$env:systemroot\system32\msiexec.exe" -ArgumentList "/i `"$($ps.app.LocalAppC1.Path)`" REBOOT=ReallySuppress /q" -Wait
-            #$FortiClient.IsChecked = $false
+            #$LocalAppC1.IsChecked = $false
         }
         progCounter
         $status.Content = " Setup Complete! "

@@ -4,3 +4,9 @@ PowerSetup.json
 package.psd1
 AdminDomainSetup.ps1
 AdminDomainWPF.xaml
+.out/
+bin/
+obj/
+*.pssproj
+*.json
+.gitignore
